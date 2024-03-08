@@ -339,10 +339,23 @@ const Home = () => {
             <div className="col-span-12">
               <h3 className='text-2xl font-medium mb-5'>Latest news</h3>
             </div>
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
+          </div>
+          <div className="grid grid-cols-12 gap-3 mb-10">
+            <div className="col-span-3">
+              <BlogCard />
+            </div>
+
+            <div className="col-span-3">
+              <BlogCard />
+            </div>
+
+            <div className="col-span-3">
+              <BlogCard />
+            </div>
+
+            <div className="col-span-3">
+              <BlogCard />
+            </div>
           </div>
         </div>
       </section>

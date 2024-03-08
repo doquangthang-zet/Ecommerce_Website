@@ -167,9 +167,9 @@ const Header = () => {
 
                 <div className="bg-cyan-900">
                   <div className="flex items-center gap-5 font-semibold">
-                    <NavLink to="">Home</NavLink>
-                    <NavLink to="">Our Store</NavLink>
-                    <NavLink to="">Blog</NavLink>
+                    <NavLink to="/">Home</NavLink>
+                    <NavLink to="/store">Our Store</NavLink>
+                    <NavLink to="/blog">Blog</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
                   </div>
                 </div>

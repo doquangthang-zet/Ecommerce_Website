@@ -3,9 +3,9 @@ import {NavLink, Link} from "react-router-dom";
 
 const BlogCard = () => {
   return (
-    <div className='col-span-3'>
+    <div className=''>
         <div className="bg-white rounded-md">
-            <img src="images/blog-1.jpg" className='rounded-t-md' alt="blog" />
+            <img src="images/blog-1.jpg" className='rounded-t-md w-full' alt="blog" />
 
             <div className="p-4">
                 <p className='text-sm uppercase leading-none font-normal p-0 text-gray-500'>6 Mar, 2024</p>
