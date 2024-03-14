@@ -14,7 +14,7 @@ const ProductCard = (props) => {
 
     return (
         <div className={`${location.pathname == "/store" ? `col-span-${grid}` : `col-span-3`}`}>
-            <Link className={`${grid == 12 ? "flex gap-5": grid == 6 ? "" : grid == 4 ? "" : ""} bg-white rounded-md p-4 relative overflow-hidden group w-full`}>
+            <Link to="/product/:id" className={`${grid == 12 ? "flex gap-5": grid == 6 ? "" : grid == 4 ? "" : ""} bg-white rounded-md p-4 relative overflow-hidden group w-full`}>
                 <div className="absolute top-5 right-4">
                     <Link><CiHeart className='w-5 h-5' /></Link>
                 </div>

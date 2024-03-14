@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <>
       <header className="bg-cyan-950 py-3 border-b">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="grid grid-cols-2 text-white">
             <div className="col-start-1 col-span-6 mb-0">
               <p>Free shipping for deals over 500$</p>
@@ -30,7 +30,7 @@ const Header = () => {
       </header>
 
       <header className="bg-cyan-950 py-3">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-2">
               <Link to="/" className='text-white lg:text-3xl md:text-md'>E-Commerce</Link>
@@ -84,7 +84,7 @@ const Header = () => {
       </header>
 
       <header className="bg-cyan-900 py-3">
-        <div className='container mx-auto px-4'>
+        <div className='container mx-auto'>
           <div className="grid grid-cols-12">
             <div className="col-span-12 text-white">
               <div className="flex items-center gap-10">

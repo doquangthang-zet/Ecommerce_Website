@@ -264,10 +264,11 @@ const Store = () => {
                       <select
                         id="sortBy"
                         name="sortBy"
+                        defaultValue={"manual"}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                       >
                         <option value="manual">Featured</option>
-                        <option value="best-selling" selected>Best selling</option>
+                        <option value="best-selling">Best selling</option>
                         <option value="title-asc">Alphabetically, A-Z</option>
                         <option value="title-desc">Alphabetically, Z-A</option>
                         <option value="price-asc">Price, low to high</option>
