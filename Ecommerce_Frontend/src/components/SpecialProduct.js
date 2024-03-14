@@ -1,6 +1,7 @@
 import React from 'react'
 import {NavLink, Link} from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
+import watch from "../images/watch.jpg";
 
 const SpecialProduct = () => {
   return (
@@ -8,7 +9,7 @@ const SpecialProduct = () => {
         <Link className="bg-white rounded-md p-3">
             <div className="flex justify-between">
                 <div>
-                    <img src="images/watch.jpg" alt="watch" />
+                    <img src={watch} alt="watch" />
                 </div>
 
                 <div className="">

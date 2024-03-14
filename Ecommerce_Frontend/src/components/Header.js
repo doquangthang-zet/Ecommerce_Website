@@ -2,8 +2,10 @@ import React from 'react'
 import {NavLink, Link} from "react-router-dom";
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import { BsChevronDown, BsSearch } from "react-icons/bs";
+import { BsCart4, BsChevronDown, BsSearch } from "react-icons/bs";
 import { BiSolidCategoryAlt } from "react-icons/bi";
+import { FaRegHeart, FaRegUser, FaRegUserCircle, FaUser } from "react-icons/fa";
+import { RiRefreshLine } from "react-icons/ri";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -31,7 +33,7 @@ const Header = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-2">
-              <Link className='text-white lg:text-3xl md:text-md'>E-Commerce</Link>
+              <Link to="/" className='text-white lg:text-3xl md:text-md'>E-Commerce</Link>
             </div>
             <div className="col-span-5">
               <div className='w-full flex justify-center items-center'>
@@ -46,29 +48,29 @@ const Header = () => {
             <div className="col-span-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <Link className='flex items-center text-white gap-2'>
-                    <img className='fill-white w-8 h-8' src="./images/compare.svg" alt="compare icon" />
+                  <Link to="/wishlist" className='flex items-center text-white gap-2'>
+                    <FaRegHeart className='fill-white w-8 h-8' />
                     <p className='mb-0'>Favourite <br/>Wishlist</p>
                   </Link>
                 </div>
 
                 <div>
-                  <Link className='flex items-center text-white gap-2'>
-                    <img className='fill-white w-8 h-8' src="./images/wishlist.svg" alt="compare icon" />
+                  <Link to="/compare" className='flex items-center text-white gap-2'>
+                    <RiRefreshLine className='fill-white w-8 h-8' />
                     <p className='mb-0'>Compare <br/>Products</p>
                   </Link>
                 </div>
 
                 <div>
-                  <Link className='flex items-center text-white gap-2'>
-                    <img className='fill-white w-8 h-8' src="./images/user.svg" alt="user icon" />
+                  <Link to="/login" className='flex items-center text-white gap-2'>
+                    <FaRegUser className='fill-white w-8 h-8' />
                     <p className='mb-0'>Log in <br/>My Account</p>
                   </Link>
                 </div>
 
                 <div>
-                  <Link className='flex items-center text-white gap-2'>
-                    <img className='fill-white w-8 h-8' src="./images/cart.svg" alt="cart icon" />
+                  <Link to="/cart" className='flex items-center text-white gap-2'>
+                    <BsCart4 className='fill-orange-500 w-8 h-8' />
                     <div className='flex flex-col gap-2'>
                       <span className='bg-white text-black rounded-md text-center text-sm'>0</span>
                       <p className="mb-0">$100</p>

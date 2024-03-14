@@ -4,6 +4,7 @@ import Meta from '../components/Meta';
 import ReactStars from "react-rating-stars-component";
 import {NavLink, Link} from "react-router-dom";
 import ProductCard from '../components/ProductCard';
+import Color from '../components/Color';
 
 const Store = () => {
   const [grid, setGrid] = useState(3);
@@ -122,19 +123,7 @@ const Store = () => {
                     
                     <div>
                       <div className='border-b border-gray-900/10 pb-3'>
-                        <ul className='list-none flex flex-wrap gap-4'>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                          <li className='w-5 h-5 bg-red-600 rounded-full'></li>
-                        </ul>
+                        <Color />
                       </div>
                     </div>
 

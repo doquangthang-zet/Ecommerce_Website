@@ -1,12 +1,12 @@
 import React from 'react'
-import {NavLink, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const BreadCrum = (props) => {
   const {title} = props;
 
   return (
-    <div className='py-4'>
-        <div className="container mx-auto">
+    <div className='mb-3'>
+        <div className="bg-white py-5">
             <div className="grid">
               <div className="col-span-1">
                 <p className='text-center'>

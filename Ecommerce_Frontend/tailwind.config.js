@@ -6,6 +6,16 @@ module.exports = {
         boxShadow: {
           'all': '0 0 10px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
         },
+        width: {
+          '48%': '48%',
+          '128': '32rem',
+          "1/10": "10%",
+          "15%": "15%",
+        },
+        height: {
+          '48%': '48%',
+          '100': '28rem',
+        },
       },
       container: {
         padding: {
