@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+main {
+  overflow-y: scroll;
+  height: 85vh;
+}
+
+main::-webkit-scrollbar {
+  width: 0px;
+}
+
+.ant-layout {
+  height: 100vh;
+}
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.ant-layout-sider, .ant-layout-sider-dark {
+  flex: 0 0 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  width: 250px !important;
+}
+
+.ant-layout-sider-collapsed {
+  flex: 0 0 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  width: 80px !important;
+}
+
+.ant-layout-sider-collapsed .ant-layout-sider-children .logo-full {
+  display: none;
+  transition: 0.3s;
+}
+
+.ant-layout-sider-collapsed .ant-layout-sider-children .logo-collapsed {
+  display: block;
+  transition: 0.3s;
+}
+
+.ant-menu-item-icon {
+  width: 1.8em;
+  height: 1.8em;
+}
+
+.ant-menu-item-selected {
+  background-color: #A855F7 !important;
+}
