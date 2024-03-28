@@ -327,7 +327,7 @@ const userCart = asyncHandler(async (req, res) => {
         const alreadyExistCard = await Cart.findOne({orderBy: user?._id});    
 
         if(alreadyExistCard) {
-            alreadyExistCard.remove();
+            await Cart.findOneAndDelete({orderBy: user?._id});
         };
 
         for(let i = 0; i < cart.length; i++) {
@@ -461,13 +461,23 @@ const createOrder = asyncHandler(async(req, res) => {
     }
 });
 
-//Get order
+//Get all order
+const getAllOrder = asyncHandler(async(req, res) => {
+    try{
+        const allUserOrder = await Order.find().populate("products.product").populate("orderBy").exec();
+        res.json(allUserOrder);
+    } catch(err) {
+        throw new Error(err);
+    }
+});
+
+//Get user order
 const getOrder = asyncHandler(async(req, res) => {
     const {_id} = req.user;
     validateMongoDBId(_id);
 
     try{
-        const userOrder = await Order.findOne({orderBy: _id}).populate("products.product").exec();
+        const userOrder = await Order.findOne({orderBy: _id}).populate("products.product").populate("orderBy").exec();
         res.json(userOrder);
     } catch(err) {
         throw new Error(err);
@@ -493,4 +503,4 @@ const updateOrder = asyncHandler(async(req, res) => {
     }
 });
 
-module.exports = {createUser, loginUserCtrl, loginAdminCtrl, getAllUsers, getOneUser, deleteOneUser, updateOneUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword, getWishlist, saveAddress, userCart, getUserCart, deleteCart, applyCoupon, createOrder, getOrder, updateOrder};
+module.exports = {createUser, loginUserCtrl, loginAdminCtrl, getAllUsers, getOneUser, deleteOneUser, updateOneUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword, getWishlist, saveAddress, userCart, getUserCart, deleteCart, applyCoupon, createOrder, getOrder, getAllOrder, updateOrder};

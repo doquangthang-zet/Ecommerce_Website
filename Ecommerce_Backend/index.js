@@ -16,10 +16,13 @@ const brandRoute = require('./routes/brandRoutes');
 const colorRoute = require('./routes/colorRoutes');
 const couponRoute = require('./routes/couponRoutes');
 const enquiryRoute = require('./routes/enquiryRoutes');
+const uploadRoute = require('./routes/uploadRoutes');
 const morgan = require("morgan");
+const cors = require("cors");
 
 dbConnect();
 
+app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -51,6 +54,9 @@ app.use("/api/color", colorRoute);
 
 //API route for color
 app.use("/api/enquiry", enquiryRoute);
+
+//API route for upload
+app.use("/api/upload", uploadRoute);
 
 app.use(notFound);
 app.use(errorHandler);
