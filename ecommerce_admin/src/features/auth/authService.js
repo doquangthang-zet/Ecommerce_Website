@@ -1,13 +1,6 @@
 import axios from "axios";
-import {baseUrl} from "../../utils/baseUrl"
-
-const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
-const config = {
-    headers: {
-        'Authorization': `Bearer ${userFromLocalstorage.token}`,
-        "Accept" : "application/json",
-    },
-};
+import {baseUrl} from "../../utils/baseUrl";
+import { config } from "../../utils/axiosconfig";
 
 // Login api
 const login = async (userData) => {

@@ -1,5 +1,6 @@
 import axios from "axios";
-import {baseUrl} from "../../utils/baseUrl"
+import {baseUrl} from "../../utils/baseUrl";
+import { config } from "../../utils/axiosconfig";
 
 // Get all users of the web
 const getProducts = async () => {
@@ -8,8 +9,16 @@ const getProducts = async () => {
     return response.data;
 };
 
+//Create product
+const createProduct = async (product) => {
+    const response = await axios.post(`${baseUrl}product/`, product, config);
+  
+    return response.data;
+};
+
 const productService = {
-    getProducts
+    getProducts,
+    createProduct,
 };
 
 export default productService;

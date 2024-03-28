@@ -12,10 +12,13 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import { PiUserList } from "react-icons/pi";
 import { FaBloggerB } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
+import { RiCouponLine } from "react-icons/ri";
 import { IoMdNotifications } from "react-icons/io";
 import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const items = [
   {
@@ -47,7 +50,7 @@ const MainLayout = () => {
     const navigate = useNavigate();
 
   return (
-    <Layout>
+    <Layout /* onContextMenu={(e) => e.preventDefault()} */>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="text-white text-center text-xl font-medium p-3 hover:text-purple-500">
           <Link to="/admin" className='logo-full hover:text-purple-500'>E-commerce</Link>
@@ -128,6 +131,23 @@ const MainLayout = () => {
               key: 'orders',
               icon: <LuClipboardList />,
               label: 'Orders',
+            },
+            {
+              key: 'coupons',
+              icon: <RiCouponLine />,
+              label: 'Coupons',
+              children: [
+                {
+                  key: 'coupon',
+                  icon: <ImBlog />,
+                  label: 'Add Coupon',
+                },
+                {
+                  key: 'coupon-list',
+                  icon: <RiCouponLine />,
+                  label: 'Coupon list',
+                },
+              ]
             },
             {
               key: 'blogs',
@@ -213,6 +233,17 @@ const MainLayout = () => {
             minHeight: 280,
           }}
         >
+          <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="light"
+          />
           <Outlet />
         </Content>
       </Layout>

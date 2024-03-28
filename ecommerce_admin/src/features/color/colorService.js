@@ -1,5 +1,6 @@
 import axios from "axios";
-import {baseUrl} from "../../utils/baseUrl"
+import {baseUrl} from "../../utils/baseUrl";
+import { config } from "../../utils/axiosconfig";
 
 // Get all colors of the web
 const getColors = async () => {
@@ -8,8 +9,17 @@ const getColors = async () => {
     return response.data;
 };
 
+//Create color
+const createColor = async (color) => {
+    const response = await axios.post(`${baseUrl}color/`, color, config);
+  
+    return response.data;
+};
+
+
 const colorService = {
-    getColors
+    getColors,
+    createColor,
 };
 
 export default colorService;

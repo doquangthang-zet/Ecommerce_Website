@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import bCateService from "./bCategoryService";
 
 const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
@@ -18,7 +18,21 @@ export const getbCategories = createAsyncThunk("bCategory", async(thunkAPI) => {
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
-})
+});
+
+// Create new blgo cate
+export const createBCate = createAsyncThunk(
+    "bCategory/createBlogCate",
+    async (bCateData, thunkAPI) => {
+      try {
+        return await bCateService.createBlogCate(bCateData);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+);
+
+export const resetState = createAction("Reset_all");
 
 export const bCategorySlice = createSlice({
     name: "bCategory",
@@ -45,7 +59,27 @@ export const bCategorySlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             }
-        );
+        ).addCase(
+            createBCate.pending, (state) => {
+                state.isLoading = true;
+            }
+        )
+        .addCase(
+            createBCate.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.createdBCategory = action.payload;
+            }
+        )
+        .addCase(
+            createBCate.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            }
+        ).addCase(resetState, () => initialState);
     },
 });
 

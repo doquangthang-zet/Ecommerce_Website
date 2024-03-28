@@ -1,29 +1,29 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import productService from "./productService";
+import couponService from "./couponService";
 
 const initialState = {
-    products: [],
+    coupons: [],
     isError: false,
     isLoading: false,
     isSuccess: false,
     message: "",
 };
 
-//Get all products
-export const getProducts = createAsyncThunk("product", async(thunkAPI) => {
+//Get all coupons
+export const getCoupon = createAsyncThunk("coupon", async(thunkAPI) => {
     try {
-        return await productService.getProducts();
+        return await couponService.getCoupons();
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
 })
 
-// Create new product
-export const createProducts = createAsyncThunk(
-    "product/createProducts",
-    async (productData, thunkAPI) => {
+// Create new coupon
+export const createCoupon = createAsyncThunk(
+    "coupon/createCoupon",
+    async (couponData, thunkAPI) => {
       try {
-        return await productService.createProduct(productData);
+        return await couponService.createCoupon(couponData);
       } catch (error) {
         return thunkAPI.rejectWithValue(error);
       }
@@ -32,25 +32,25 @@ export const createProducts = createAsyncThunk(
 
 export const resetState = createAction("Reset_all");
 
-export const productSlice = createSlice({
-    name: "product",
+export const couponSlice = createSlice({
+    name: "coupon",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
         .addCase(
-            getProducts.pending,
+            getCoupon.pending,
             (state) => {state.isLoading = true;}
         ).addCase(
-            getProducts.fulfilled,
+            getCoupon.fulfilled,
             (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.products = action.payload;
+                state.coupons = action.payload;
             }
         ).addCase(
-            getProducts.rejected,
+            getCoupon.rejected,
             (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
@@ -58,20 +58,20 @@ export const productSlice = createSlice({
                 state.message = action.error;
             }
         ).addCase(
-            createProducts.pending, (state) => {
+            createCoupon.pending, (state) => {
                 state.isLoading = true;
             }
         )
         .addCase(
-            createProducts.fulfilled, (state, action) => {
+            createCoupon.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.createdProduct = action.payload;
+                state.createdCoupon = action.payload;
             }
         )
         .addCase(
-            createProducts.rejected, (state, action) => {
+            createCoupon.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -81,4 +81,4 @@ export const productSlice = createSlice({
     },
 });
 
-export default productSlice.reducer;
+export default couponSlice.reducer;

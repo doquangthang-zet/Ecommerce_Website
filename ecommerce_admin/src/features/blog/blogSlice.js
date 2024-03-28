@@ -1,7 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import blogService from "./blogService";
-
-const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
 const initialState = {
     blogs: [],
@@ -18,7 +16,21 @@ export const getBlogs = createAsyncThunk("blog", async(thunkAPI) => {
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
-})
+});
+
+// Create new blog
+export const createBlog = createAsyncThunk(
+    "blog/createBlog",
+    async (blogData, thunkAPI) => {
+      try {
+        return await blogService.createBlog(blogData);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+);
+
+export const resetState = createAction("Reset_all");
 
 export const blogSlice = createSlice({
     name: "blog",
@@ -45,7 +57,27 @@ export const blogSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             }
-        );
+        ).addCase(
+            createBlog.pending, (state) => {
+                state.isLoading = true;
+            }
+        )
+        .addCase(
+            createBlog.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.createdBlog = action.payload;
+            }
+        )
+        .addCase(
+            createBlog.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            }
+        ).addCase(resetState, () => initialState);
     },
 });
 

@@ -1,5 +1,6 @@
 import axios from "axios";
-import {baseUrl} from "../../utils/baseUrl"
+import {baseUrl} from "../../utils/baseUrl";
+import { config } from "../../utils/axiosconfig";
 
 // Get all blogs of the web
 const getBlogs = async () => {
@@ -8,8 +9,16 @@ const getBlogs = async () => {
     return response.data;
 };
 
+//Create blog
+const createBlog = async (blog) => {
+    const response = await axios.post(`${baseUrl}blog/`, blog, config);
+  
+    return response.data;
+};
+
 const blogService = {
-    getBlogs
+    getBlogs,
+    createBlog,
 };
 
 export default blogService;

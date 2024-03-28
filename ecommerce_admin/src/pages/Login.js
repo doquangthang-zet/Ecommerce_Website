@@ -58,7 +58,7 @@ const Login = () => {
             <input type="text" id="email" name='email' class="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
             onChange={formik.handleChange("email")}
             value={formik.values.email}
-            onBlur={formik.handleBlur} />
+            onBlur={formik.handleBlur("email")} />
 
             <div className="text-sm text-red-500 pl-2 italic">
               {formik.touched.email && formik.errors.email ? (
@@ -72,7 +72,7 @@ const Login = () => {
             <input type="password" id="password" name='password' class="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
             onChange={formik.handleChange("password")}
             value={formik.values.password}
-            onBlur={formik.handleBlur} />
+            onBlur={formik.handleBlur("password")} />
 
             <div className="text-sm text-red-500 pl-2 italic">
               {formik.touched.password && formik.errors.password ? (

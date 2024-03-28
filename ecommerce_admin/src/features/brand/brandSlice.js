@@ -1,7 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import brandService from "./brandService";
-
-const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
 const initialState = {
     brands: [],
@@ -18,7 +16,21 @@ export const getBrands = createAsyncThunk("brand", async(thunkAPI) => {
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
-})
+});
+
+// Create new brand
+export const createBrand = createAsyncThunk(
+    "brand/createBrand",
+    async (brandData, thunkAPI) => {
+      try {
+        return await brandService.createBrand(brandData);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+);
+
+export const resetState = createAction("Reset_all");
 
 export const brandSlice = createSlice({
     name: "brand",
@@ -45,7 +57,27 @@ export const brandSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             }
-        );
+        ).addCase(
+            createBrand.pending, (state) => {
+                state.isLoading = true;
+            }
+        )
+        .addCase(
+            createBrand.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.createdBrand = action.payload;
+            }
+        )
+        .addCase(
+            createBrand.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            }
+        ).addCase(resetState, () => initialState);
     },
 });
 
