@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBlogs } from '../features/blog/blogSlice';
+import { deleteBlog, getBlogs } from '../features/blog/blogSlice';
 import { Link } from 'react-router-dom';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import CustomModal from '../components/CustomModal';
 
 const columns = [
     {
@@ -56,6 +57,25 @@ const BlogList = () => {
 
   const blogState = useSelector((state) => state.blog.blogs);
 
+  const [open, setOpen] = useState(false);
+  const [blogId, setBlogId] = useState("");
+
+  const showModal = (id) => {
+    setOpen(true);
+    setBlogId(id);
+  };
+  const hideModal = () => {
+    setOpen(false);
+  };
+
+  const removeBlog = (id) => {
+    dispatch(deleteBlog(id));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getBlogs());
+    }, 100);
+  }
+
   const dataTable = [];
   for (let i = 0; i < blogState.length; i++) {
     dataTable.push({
@@ -68,12 +88,12 @@ const BlogList = () => {
       author: blogState[i].author,
       actions: 
       <div className="flex items-center justify-center gap-5">
-        <Link>
+        <Link to={`/admin/blog/${blogState[i]._id}`}>
           <FaEdit className='text-purple-500 text-xl' />
         </Link>
-        <Link>
+        <button onClick={() => showModal(blogState[i]._id)}>
           <MdDeleteForever className='text-red-500 text-xl' />
-        </Link>
+        </button>
       </div>
       ,
     });
@@ -86,6 +106,7 @@ const BlogList = () => {
         <div>
             <Table columns={columns} dataSource={dataTable} />
         </div>
+        <CustomModal title="Are you sure to delete this blog?" hideModal={hideModal} open={open} performAction={() => removeBlog(blogId)} />
     </div>
   )
 }

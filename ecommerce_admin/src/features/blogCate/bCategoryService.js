@@ -16,9 +16,33 @@ const createBlogCate = async (bCate) => {
     return response.data;
 };
 
+// Get one blogCate of the web
+const getOneBlogCate = async (id) => {
+    const response = await axios.get(`${baseUrl}blogCategory/${id}`, config);
+
+    return response.data;
+};
+
+//Update blogCate
+const updateBlogCate = async (blogCate) => {
+    const response = await axios.put(`${baseUrl}blogCategory/${blogCate.id}`, blogCate.data, config);
+  
+    return response.data;
+};
+
+//Delete blogCate
+const deleteBlogCate = async (id) => {
+    const response = await axios.delete(`${baseUrl}blogCategory/${id}`, config);
+  
+    return response.data;
+};
+
 const bCateService = {
     getBCategories,
     createBlogCate,
+    getOneBlogCate,
+    updateBlogCate,
+    deleteBlogCate,
 };
 
 export default bCateService;

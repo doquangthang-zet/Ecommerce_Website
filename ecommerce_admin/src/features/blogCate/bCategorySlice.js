@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import bCateService from "./bCategoryService";
 
-const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
-
 const initialState = {
     bCategories: [],
     isError: false,
@@ -26,6 +24,39 @@ export const createBCate = createAsyncThunk(
     async (bCateData, thunkAPI) => {
       try {
         return await bCateService.createBlogCate(bCateData);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+);
+
+//Get one blogCategory
+export const getOneBlogCategory = createAsyncThunk("bCategory/getOneBlogCategory", async(id, thunkAPI) => {
+    try {
+        return await bCateService.getOneBlogCate(id);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+});
+
+// Update blogCategory
+export const updateBlogCategory = createAsyncThunk(
+    "bCategory/updateBlogCategory",
+    async (blogCategory, thunkAPI) => {
+      try {
+        return await bCateService.updateBlogCate(blogCategory);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+      }
+    }
+);
+
+// Delete blogCategory
+export const deleteBlogCategory = createAsyncThunk(
+    "bCategory/deleteBlogCategory",
+    async (id, thunkAPI) => {
+      try {
+        return await bCateService.deleteBlogCate(id);
       } catch (error) {
         return thunkAPI.rejectWithValue(error);
       }
@@ -74,6 +105,63 @@ export const bCategorySlice = createSlice({
         )
         .addCase(
             createBCate.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            }
+        ).addCase(
+            getOneBlogCategory.pending,
+            (state) => {state.isLoading = true;}
+        ).addCase(
+            getOneBlogCategory.fulfilled,
+            (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.blogCategoryTitle = action.payload.title;
+            }
+        ).addCase(
+            getOneBlogCategory.rejected,
+            (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            }
+        ).addCase(
+            updateBlogCategory.pending,
+            (state) => {state.isLoading = true;}
+        ).addCase(
+            updateBlogCategory.fulfilled,
+            (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.updatedBlogCategory = action.payload;
+            }
+        ).addCase(
+            updateBlogCategory.rejected,
+            (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            }
+        ).addCase(
+            deleteBlogCategory.pending,
+            (state) => {state.isLoading = true;}
+        ).addCase(
+            deleteBlogCategory.fulfilled,
+            (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.deletedBlogCategory = action.payload;
+            }
+        ).addCase(
+            deleteBlogCategory.rejected,
+            (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;

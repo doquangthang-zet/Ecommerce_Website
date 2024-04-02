@@ -22,6 +22,7 @@ import AddProductCategory from './pages/AddProductCategory';
 import AddProduct from './pages/AddProduct';
 import CouponList from './pages/CouponList';
 import AddCoupon from './pages/AddCoupon';
+import ViewEnquiry from './pages/ViewEnquiry';
 
 function App() {
   return (
@@ -32,22 +33,30 @@ function App() {
         <Route path='/resetPassword' element={<ResetPassword />} />
         <Route path='/admin' element={<MainLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path='customers' element={<Customer />} />
+          <Route path='product' element={<AddProduct />} />
+          <Route path='product/:id' element={<AddProduct />} />
+          <Route path='product-list' element={<ProductList />} />
+          <Route path='brand' element={<AddBrand />} />
+          <Route path='brand/:id' element={<AddBrand />} />
+          <Route path='brand-list' element={<BrandList />} />
+          <Route path='category' element={<AddProductCategory />} />
+          <Route path='category/:id' element={<AddProductCategory />} />
+          <Route path='category-list' element={<ProductCateList />} />
+          <Route path='color' element={<AddColor />} />
+          <Route path='color/:id' element={<AddColor />} />
+          <Route path='color-list' element={<ColorList />} />
+          <Route path='orders' element={<Order />} />
           <Route path='enquiries' element={<Enquiries />} />
+          <Route path='enquiries/:id' element={<ViewEnquiry />} />
           <Route path='blog-list' element={<BlogList />} />
           <Route path='blog-category-list' element={<BlogCateList />} />
-          <Route path='orders' element={<Order />} />
-          <Route path='customers' element={<Customer />} />
-          <Route path='color-list' element={<ColorList />} />
-          <Route path='brand-list' element={<BrandList />} />
-          <Route path='product-list' element={<ProductList />} />
-          <Route path='category-list' element={<ProductCateList />} />
           <Route path='blog' element={<AddBlog />} />
+          <Route path='blog/:id' element={<AddBlog />} />
           <Route path='blog-category' element={<AddBlogCategory />} />
-          <Route path='brand' element={<AddBrand />} />
-          <Route path='color' element={<AddColor />} />
-          <Route path='category' element={<AddProductCategory />} />
-          <Route path='product' element={<AddProduct />} />
+          <Route path='blog-category/:id' element={<AddBlogCategory />} />
           <Route path='coupon' element={<AddCoupon />} />
+          <Route path='coupon/:id' element={<AddCoupon />} />
           <Route path='coupon-list' element={<CouponList />} />
         </Route>
       </Routes>

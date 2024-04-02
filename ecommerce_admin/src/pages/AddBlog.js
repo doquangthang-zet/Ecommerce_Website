@@ -8,13 +8,15 @@ import { getbCategories } from '../features/blogCate/bCategorySlice';
 import { deleteImg, resetImgState, uploadImg } from '../features/upload/uploadSlice';
 import Dropzone from 'react-dropzone';
 import { GiCrossMark } from "react-icons/gi";
-import { createBlog, resetState } from '../features/blog/blogSlice';
+import { createBlog, getOneBlog, resetState, updateBlog } from '../features/blog/blogSlice';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddBlog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const param = useParams();
+  const blogId = param.id;
 
   //Get all blgo cate from store
   const categoryState = useSelector((state) => {
@@ -31,24 +33,27 @@ const AddBlog = () => {
     return state.blog;
   });
 
-  const { isSuccess, isError, isLoading, createdBlog } = newBlog;
+  const { isSuccess, isError, isLoading, createdBlog, updatedBlog, currentBlog } = newBlog;
+
+  useEffect(() => {
+    if(blogId) {
+      dispatch(getOneBlog(blogId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [blogId]);
 
   useEffect(() => {
     if(isSuccess && createdBlog) {
       toast.success('Blog added successfully!');
     }
+    if(isSuccess && updatedBlog) {
+      toast.success('Blog updated successfully!');
+    }
     if(isError) {
       toast.error('Something went wrong!');
     }
   }, [isSuccess, isError, isLoading]);
-
-  const imgs = [];
-  imageState.forEach(element => {
-    imgs.push({
-      public_id: element.public_id,
-      url: element.url,
-    });
-  });
 
   //blog input validation using yup
   let blogSchema = Yup.object({
@@ -60,25 +65,49 @@ const AddBlog = () => {
 
   //Form handler using formik
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: '',
-      description: '',
-      category: "",
-      author: "admin",
+      title: currentBlog ? currentBlog.title : '',
+      description: currentBlog ? currentBlog.description : '',
+      category: currentBlog ? currentBlog.category : "",
+      author: currentBlog ? currentBlog.author : "admin",
       images: [],
     },
     validationSchema: blogSchema,
     onSubmit: values => {
-      dispatch(createBlog(values));
+      if(blogId !== undefined) {
+        const blogData = {
+          id: blogId,
+          data: values,
+        };
+
+        currentBlog.images.forEach(e => {
+          dispatch(deleteImg(e.public_id));
+        });
+
+        dispatch(updateBlog(blogData));
+        dispatch(resetState());
+      } else {
+        dispatch(createBlog(values));
+      }
+      
       formik.resetForm();
       setTimeout(() => {
         dispatch(resetState());
         dispatch(resetImgState());
         navigate("/admin/blog-list");
-      },3000);
+      },1000);
     },
   });
 
+  const imgs = [];
+  imageState.forEach(element => {
+    imgs.push({
+      public_id: element.public_id,
+      url: element.url,
+    });
+  });
+  
   useEffect(() => {
     formik.values.images = imgs;
   }, [imgs]);
@@ -89,7 +118,7 @@ const AddBlog = () => {
   
   return (
     <div>
-        <h3 className="mb-4 text-2xl font-bold">Add Blog</h3>
+        <h3 className="mb-4 text-2xl font-bold">{blogId ? "Edit" : "Add"} Blog</h3>
 
         <div>
             <form action="" onSubmit={formik.handleSubmit}>
@@ -109,7 +138,7 @@ const AddBlog = () => {
 
               <div className="flex flex-wrap gap-5">
                 {
-                  imageState.map((image, j) => (
+                  imageState?.map((image, j) => (
                     <div className='relative' key={j}>
                       <GiCrossMark className='absolute top-4 right-4 text-2xl cursor-pointer bg-white p-1 rounded-md' onClick={() => dispatch(deleteImg(image.public_id))} />
                       <img src={image.url} className='p-3' alt="product image" width={200} height={200} />
@@ -162,7 +191,7 @@ const AddBlog = () => {
               </div>
 
               {/* Description */}
-              <ReactQuill theme="snow" value={formik.values.description} onChange={formik.handleChange("description")} className='bg-white mb-4' placeholder='Enter blog content' />
+              <ReactQuill theme="snow" name="description" value={formik.values.description} onChange={formik.handleChange("description")} className='bg-white mb-4' placeholder='Enter blog content' />
 
               <div className="text-sm text-red-500 pl-2 italic">
                 {formik.touched.description && formik.errors.description ? (
@@ -170,7 +199,7 @@ const AddBlog = () => {
                 ) : null}
               </div>
 
-              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>Add blog</button>
+              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>{blogId ? "Edit" : "Add"} blog</button>
             </form>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import authService from "./authService";
 
 const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
@@ -28,7 +28,9 @@ export const getOrder = createAsyncThunk("user/getOrder", async(thunkAPI) => {
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
-})
+});
+
+export const resetState = createAction("Reset_all");
 
 export const authSlice = createSlice({
     name: "user",
@@ -76,7 +78,7 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             }
-        );
+        ).addCase(resetState, () => initialState);
     },
 });
 

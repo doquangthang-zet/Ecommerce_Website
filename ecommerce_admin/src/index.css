@@ -68,3 +68,7 @@ main::-webkit-scrollbar {
 .ant-menu-item-selected {
   background-color: #A855F7 !important;
 }
+
+.ant-btn-primary {
+  background: #1677ff !important;
+}

@@ -12,13 +12,15 @@ import "react-widgets/styles.css";
 import { deleteImg, resetImgState, uploadImg } from '../features/upload/uploadSlice';
 import Dropzone from 'react-dropzone';
 import { GiCrossMark } from "react-icons/gi";
-import { createProducts, resetState } from '../features/product/productSlice';
+import { createProducts, getOneProduct, resetState, updateProduct } from '../features/product/productSlice';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const param = useParams();
+  const productId = param.id;
   const [colors, setColors] = useState([]);
 
   //Get all brands from store
@@ -46,11 +48,22 @@ const AddProduct = () => {
     return state.product;
   });
 
-  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+  const { isSuccess, isError, isLoading, createdProduct, updatedProduct, currentProduct } = newProduct;
+
+  useEffect(() => {
+    if(productId) {
+      dispatch(getOneProduct(productId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [productId]);
 
   useEffect(() => {
     if(isSuccess && createdProduct) {
       toast.success('Product added successfully!');
+    }
+    if(isSuccess && updatedProduct) {
+      toast.success('Product updated successfully!');
     }
     if(isError) {
       toast.error('Something went wrong!');
@@ -81,26 +94,41 @@ const AddProduct = () => {
   //Form handler using formik
   const formik = useFormik({
     initialValues: {
-      title: '',
-      description: '',
-      price: "",
-      quantity: "",
-      brand: "",
-      category: "",
-      tags: "",
+      title: currentProduct ? currentProduct.title : '',
+      description: currentProduct ? currentProduct.description : '',
+      price: currentProduct ? currentProduct.price : "",
+      quantity: currentProduct ? currentProduct.quantity : "",
+      brand: currentProduct ? currentProduct.brand : "",
+      category: currentProduct ? currentProduct.category : "",
+      tags: currentProduct ? currentProduct.tags : "",
       color: [],
       images: [],
     },
     validationSchema: productSchema,
     onSubmit: values => {
-      dispatch(createProducts(values));
+      if(productId !== undefined) {
+        const productData = {
+          id: productId,
+          data: values,
+        };
+
+        currentProduct.images.forEach(e => {
+          dispatch(deleteImg(e.public_id));
+        });
+
+        dispatch(updateProduct(productData));
+        dispatch(resetState());
+      } else {
+        dispatch(createProducts(values));
+      }
+      
       formik.resetForm();
       setColors([]);
       setTimeout(() => {
         dispatch(resetState());
         dispatch(resetImgState());
         navigate("/admin/product-list");
-      },3000);
+      },1000);
     },
   });
 
@@ -117,7 +145,7 @@ const AddProduct = () => {
 
   return (
     <div>
-        <h3 className="mb-4 text-2xl font-bold">Add Product</h3>
+        <h3 className="mb-4 text-2xl font-bold">{productId ? "Edit" : "Add"} Product</h3>
 
         <div>
             <form action="" onSubmit={formik.handleSubmit}>
@@ -313,7 +341,7 @@ const AddProduct = () => {
                 ) : null}
               </div>
               
-              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>Add product</button>
+              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>{productId ? "Edit" : "Add"} product</button>
             </form>
         </div>
     </div>

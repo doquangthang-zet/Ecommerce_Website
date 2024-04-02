@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../features/productCate/pCategorySlice';
+import { deleteCategory, getCategories } from '../features/productCate/pCategorySlice';
 import { Link } from 'react-router-dom';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import CustomModal from '../components/CustomModal';
 
 const columns = [
     {
@@ -21,16 +22,6 @@ const columns = [
       dataIndex: 'actions',
     },
   ];
-  
-  const dataTable = [];
-  for (let i = 0; i < 46; i++) {
-    dataTable.push({
-      key: i,
-      name: `Edward King ${i}`,
-      product: 32,
-      status: `London, Park Lane no. ${i}`,
-    });
-  }
 
 const ProductCateList = () => {
   const dispatch = useDispatch();
@@ -41,6 +32,25 @@ const ProductCateList = () => {
 
   const categoryState = useSelector((state) => state.category.categories);
 
+  const [open, setOpen] = useState(false);
+  const [cateId, setCateId] = useState("");
+
+  const showModal = (id) => {
+    setOpen(true);
+    setCateId(id);
+  };
+  const hideModal = () => {
+    setOpen(false);
+  };
+
+  const removeCate = (id) => {
+    dispatch(deleteCategory(id));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getCategories());
+    }, 100);
+  }
+
   const dataTable = [];
   for (let i = 0; i < categoryState.length; i++) {
     dataTable.push({
@@ -48,12 +58,12 @@ const ProductCateList = () => {
       title: categoryState[i].title,
       actions: 
       <div className="flex items-center justify-center gap-5">
-        <Link>
+        <Link to={`/admin/category/${categoryState[i]._id}`}>
           <FaEdit className='text-purple-500 text-xl' />
         </Link>
-        <Link>
+        <button onClick={() => showModal(categoryState[i]._id)}>
           <MdDeleteForever className='text-red-500 text-xl' />
-        </Link>
+        </button>
       </div>
       ,
     });
@@ -66,6 +76,8 @@ const ProductCateList = () => {
         <div>
             <Table columns={columns} dataSource={dataTable} />
         </div>
+
+        <CustomModal title="Are you sure to delete this product category?" hideModal={hideModal} open={open} performAction={() => removeCate(cateId)} />
     </div>
   )
 }

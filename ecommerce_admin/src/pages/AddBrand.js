@@ -3,23 +3,36 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { createBrand, resetState } from '../features/brand/brandSlice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createBrand, getOneBrand, resetState, updateBrand } from '../features/brand/brandSlice';
 
 const AddBrand = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const param = useParams();
+  const brandId = param.id;
 
   //Get created product
   const newBrand = useSelector((state) => {
     return state.brand;
   });
 
-  const { isSuccess, isError, isLoading, createdBrand } = newBrand;
+  const { isSuccess, isError, isLoading, createdBrand, updatedBrand, brandTitle } = newBrand;
+
+  useEffect(() => {
+    if(brandId) {
+      dispatch(getOneBrand(brandId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [brandId]);
 
   useEffect(() => {
     if(isSuccess && createdBrand) {
       toast.success('Brand added successfully!');
+    }
+    if(isSuccess && updatedBrand) {
+      toast.success('Brand updated successfully!');
     }
     if(isError) {
       toast.error('Something went wrong!');
@@ -33,23 +46,34 @@ const AddBrand = () => {
 
   //Form handler using formik
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: '',
+      title: brandTitle || '',
     },
     validationSchema: brandSchema,
     onSubmit: values => {
-      dispatch(createBrand(values));
+      if(brandId !== undefined) {
+        const brandData = {
+          id: brandId,
+          data: values,
+        };
+        dispatch(updateBrand(brandData));
+        dispatch(resetState());
+      } else {
+        dispatch(createBrand(values));
+      }
+      
       formik.resetForm();
       setTimeout(() => {
         dispatch(resetState());
         navigate("/admin/brand-list");
-      },3000);
+      },1000);
     },
   });
 
   return (
     <div>
-        <h3 className="mb-4 text-2xl font-bold">Add Brand</h3>
+        <h3 className="mb-4 text-2xl font-bold">{brandId ? "Edit" : "Add"} Brand</h3>
 
         <div>
             <form action="" onSubmit={formik.handleSubmit}>
@@ -73,7 +97,7 @@ const AddBrand = () => {
                 </div>
               </div>
 
-              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>Add brand</button>
+              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>{brandId ? "Edit" : "Add"} brand</button>
             </form>
         </div>
     </div>

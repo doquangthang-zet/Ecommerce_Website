@@ -1,35 +1,53 @@
 import React, { useEffect, useState } from 'react'
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBrands } from '../features/brand/brandSlice';
-import { getColors } from '../features/color/colorSlice';
-import { getCategories } from '../features/productCate/pCategorySlice';
-import Multiselect from "react-widgets/Multiselect";
 import "react-widgets/styles.css";
-import { deleteImg, resetImgState, uploadImg } from '../features/upload/uploadSlice';
-import Dropzone from 'react-dropzone';
-import { GiCrossMark } from "react-icons/gi";
-import { createCoupon, resetState } from '../features/coupon/couponSlice';
+import { createCoupon, getOneCoupon, resetState, updateCoupon } from '../features/coupon/couponSlice';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddCoupon = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const param = useParams();
+  const couponId = param.id;
 
   //Get created coupon
   const newCoupon = useSelector((state) => {
     return state.coupon;
   });
 
-  const { isSuccess, isError, isLoading, createdCoupon } = newCoupon;
+  const { isSuccess, isError, isLoading, createdCoupon, updatedCoupon, currentCoupon } = newCoupon;
+
+  const changeDateFormat = (date) => {
+    const newDate = new Date(date).toLocaleDateString();
+    let [month, day, year] = newDate.split("/");
+    if(month.length<2) {
+      month = "0" + month;
+    }
+    if(day.length<2) {
+      day = "0" + day;
+    }
+    return [year, month, day].join("-");
+  };
+
+  useEffect(() => {
+    if(couponId) {
+      dispatch(getOneCoupon(couponId));
+      console.log(couponId);
+    } else {
+      dispatch(resetState());
+    }
+  }, [couponId]);
 
   useEffect(() => {
     if(isSuccess && createdCoupon) {
       toast.success('Coupon added successfully!');
+    }
+    if(isSuccess && updatedCoupon) {
+      toast.success('Coupon updated successfully!');
     }
     if(isError) {
       toast.error('Something went wrong!');
@@ -39,31 +57,44 @@ const AddCoupon = () => {
   //copon input validation using yup
   let couponSchema = Yup.object({
     name: Yup.string().required('Name is required!'),
-    expiry: Yup.date().required('Expiry date is required!'),
+    expiry: Yup.date().required('Expiry date is required!').min(new Date()),
     discount: Yup.number().required("Discount is required!"),
   });
 
   //Form handler using formik
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      name: '',
-      expiry: '',
-      discount: "",
+      name: currentCoupon ? currentCoupon.name : "",
+      expiry: currentCoupon ? changeDateFormat(currentCoupon.expiry) : "",
+      discount: currentCoupon ? currentCoupon.discount : "",
     },
     validationSchema: couponSchema,
     onSubmit: values => {
-      dispatch(createCoupon(values));
+      values.expiry = changeDateFormat(values.expiry);
+
+      if(couponId !== undefined) {
+        const couponData = {
+          id: couponId,
+          data: values,
+        };
+        dispatch(updateCoupon(couponData));
+        dispatch(resetState());
+      } else {
+        dispatch(createCoupon(values));
+      }
+      
       formik.resetForm();
       setTimeout(() => {
         dispatch(resetState());
         navigate("/admin/coupon-list");
-      },3000);
+      },1000);
     },
   });
 
   return (
     <div>
-        <h3 className="mb-4 text-2xl font-bold">Add Coupon</h3>
+        <h3 className="mb-4 text-2xl font-bold">{couponId ? "Edit" : "Add"} Coupon</h3>
 
         <div>
             <form action="" onSubmit={formik.handleSubmit}>
@@ -125,7 +156,7 @@ const AddCoupon = () => {
                 </div>
               </div>
 
-              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>Add coupon</button>
+              <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>{couponId ? "Edit" : "Add"} coupon</button>
             </form>
         </div>
     </div>

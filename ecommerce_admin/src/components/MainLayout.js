@@ -19,26 +19,8 @@ import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const items = [
-  {
-    key: '1',
-    label: (
-      <Link to="/">
-        View Profile
-      </Link>
-    ),
-  },
-  {
-    key: '2',
-    danger: true,
-    label: (
-      <Link to="/">
-        Sign out
-      </Link>
-    ),
-  },
-];
+import { useDispatch } from 'react-redux';
+import { resetState } from '../features/auth/authSlice';
 
 const { Header, Sider, Content } = Layout;
 
@@ -48,7 +30,33 @@ const MainLayout = () => {
       token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const signOut = () => {
+      localStorage.removeItem("user");
+      dispatch(resetState());
+      navigate("/");
+    }
+
+    const items = [
+      {
+        key: '1',
+        label: (
+          <Link to="/">
+            View Profile
+          </Link>
+        ),
+      },
+      {
+        key: '2',
+        danger: true,
+        label: (
+          <button onClick={() => signOut()}>
+            Sign out
+          </button>
+        ),
+      },
+    ];
   return (
     <Layout /* onContextMenu={(e) => e.preventDefault()} */>
       <Sider trigger={null} collapsible collapsed={collapsed}>

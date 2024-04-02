@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
 import { Link } from 'react-router-dom';
-import { FaEdit } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import { getEnquiries } from '../features/enquiry/enquirySlice';
+import { deleteEnquiry, getEnquiries } from '../features/enquiry/enquirySlice';
+import CustomModal from '../components/CustomModal';
 
 const columns = [
     {
@@ -49,6 +50,25 @@ const Enquiries = () => {
 
   const enquiryState = useSelector((state) => state.enquiry.enquiries);
 
+  const [open, setOpen] = useState(false);
+  const [enquiryId, setEnquiryId] = useState("");
+
+  const showModal = (id) => {
+    setOpen(true);
+    setEnquiryId(id);
+  };
+  const hideModal = () => {
+    setOpen(false);
+  };
+
+  const removeEnquiry = (id) => {
+    dispatch(deleteEnquiry(id));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getEnquiries());
+    }, 100);
+  }
+
   const dataTable = [];
   for (let i = 0; i < enquiryState.length; i++) {
     dataTable.push({
@@ -57,20 +77,15 @@ const Enquiries = () => {
       email: enquiryState[i].email,
       mobile: enquiryState[i].mobile,
       comment: enquiryState[i].comment,
-      status: 
-      <div>
-        <select className='py-3 pl-2 mb-4 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6'>
-          <option value="">Set Status</option>
-        </select>
-      </div>,
+      status: enquiryState[i].status,
       actions: 
       <div className="flex items-center justify-center gap-5">
-        <Link>
-          <FaEdit className='text-purple-500 text-xl' />
+        <Link to={`/admin/enquiries/${enquiryState[i]._id}`}>
+          <FaRegEye className='text-purple-500 text-xl' />
         </Link>
-        <Link>
+        <button onClick={() => showModal(enquiryState[i]._id)}>
           <MdDeleteForever className='text-red-500 text-xl' />
-        </Link>
+        </button>
       </div>
       ,
     });
@@ -83,6 +98,8 @@ const Enquiries = () => {
         <div>
             <Table columns={columns} dataSource={dataTable} />
         </div>
+
+        <CustomModal title="Are you sure to delete this enquiry?" hideModal={hideModal} open={open} performAction={() => removeEnquiry(enquiryId)} />
     </div>
   )
 }
