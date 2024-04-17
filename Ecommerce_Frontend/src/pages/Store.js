@@ -1,13 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import Meta from '../components/Meta';
 import ReactStars from "react-rating-stars-component";
 import {NavLink, Link} from "react-router-dom";
 import ProductCard from '../components/ProductCard';
 import Color from '../components/Color';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProduct } from '../features/product/productSlice';
 
 const Store = () => {
   const [grid, setGrid] = useState(3);
+  const dispatch = useDispatch();
+
+  const productState = useSelector(state => state?.product?.products);
+  console.log(productState);
+
+  useEffect(() => {
+    dispatch(getAllProduct());
+  }, []);
 
   return (
     <>
@@ -291,10 +301,7 @@ const Store = () => {
                 </div>
 
                 <div className="pb-5 grid grid-cols-12 gap-3">
-                  <ProductCard grid={grid} />
-                  <ProductCard grid={grid} />
-                  <ProductCard grid={grid} />
-                  <ProductCard grid={grid} />
+                  <ProductCard grid={grid} data={productState ? productState : []} />
                 </div>
               </div>
             </div>

@@ -2,8 +2,27 @@ import React from 'react'
 import BreadCrum from '../components/BreadCrum'
 import Meta from '../components/Meta';
 import {NavLink, Link} from "react-router-dom";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 
 const ForgotPassword = () => {
+    const dispatch = useDispatch();
+
+    let userSchema = Yup.object({
+        email: Yup.string().email("Invalid email address!").required("Email is required!"),
+    });
+
+
+    const formik = useFormik({
+        initialValues: {
+          email: '',
+        },
+        validationSchema: userSchema,
+        onSubmit: values => {
+            // dispatch(userLogin(values));
+        },
+    });
   return (
     <>
         <Meta title="Forgot Password" />

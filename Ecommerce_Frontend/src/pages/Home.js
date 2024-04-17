@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {NavLink, Link} from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from '../components/BlogCard';
 import ProductCard from '../components/ProductCard';
 import SpecialProduct from '../components/SpecialProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllBlog } from '../features/blog/blogSlice';
+import moment from "moment";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  const blogState = useSelector(state => state?.blog?.blogs);
+
+  useEffect(() => {
+    dispatch(getAllBlog());
+  }, []);
+
   return (
     <div className='bg-gray-200'>
       {/* Banners home section */}
@@ -341,21 +352,24 @@ const Home = () => {
             </div>
           </div>
           <div className="grid grid-cols-12 gap-3 mb-10">
-            <div className="col-span-3">
-              <BlogCard />
-            </div>
-
-            <div className="col-span-3">
-              <BlogCard />
-            </div>
-
-            <div className="col-span-3">
-              <BlogCard />
-            </div>
-
-            <div className="col-span-3">
-              <BlogCard />
-            </div>
+            {
+              blogState && blogState?.map((item, index) => {
+                  if(index < 4) {
+                    return (
+                      <div key={index} className="col-span-3">
+                        <BlogCard
+                            id={item?._id}
+                            title={item?.title}
+                            description={item?.description}
+                            image={item?.images[0]?.url} 
+                            date={moment(item?.createdAt).format('MMMM Do YYYY, h:mm a')}
+                        />
+                      </div>
+                    );
+                  }
+                }
+              )
+            }
           </div>
         </div>
       </section>

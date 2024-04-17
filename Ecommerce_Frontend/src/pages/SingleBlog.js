@@ -1,16 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import Meta from '../components/Meta';
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import blog from "../images/blog-1.jpg";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getOneBlog } from '../features/blog/blogSlice';
+import moment from "moment";
 
 const SingleBlog = () => {
+    const dispatch = useDispatch();
+    const param = useParams();
+    const blogId = param.id;
+
+    const currentBlogState = useSelector(state => state?.blog?.currentBlog);
+  
+    useEffect(() => {
+      dispatch(getOneBlog(blogId));
+    }, []);
+
   return (
     <>
-        <Meta title="Dynamic Blog Name" />
-        <BreadCrum title="Dynamic Blog Name" />
+        <Meta title={currentBlogState?.title} />
+        <BreadCrum title={currentBlogState?.title} />
 
         <div className="py-5">
             <div className="container mx-auto">
@@ -20,11 +32,11 @@ const SingleBlog = () => {
                         <Link to="/blog" className='text-base mb-5 text-gray-600 flex items-center gap-2'>
                             <IoArrowBackCircleOutline /> Go back to blog
                         </Link>
-                        <h5 className='text-2xl font-semibold my-5 text-center'>A Good day for programming</h5>
+                        <h5 className='text-2xl font-semibold my-5 text-center'>{currentBlogState?.title}</h5>
 
-                        <img src={blog} className='rounded-md w-full' alt="blog" />
+                        <img src={currentBlogState?.images[0]?.url ? currentBlogState?.images[0]?.url : blog} className='rounded-md w-full' alt="blog" />
 
-                        <p className='my-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, magni. Est natus modi consequatur maiores eius quam necessitatibus cum mollitia numquam. Doloremque corporis quisquam exercitationem, aspernatur reprehenderit repellendus nulla eum!</p>
+                        <p className='my-2' dangerouslySetInnerHTML={{__html: currentBlogState?.description}}></p>
                     </div>
                 </div>
             </div>
