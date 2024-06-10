@@ -30,7 +30,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lt|lte)\b/g, (match) => `$${match}`);
 
-        let query = Product.find(JSON.parse(queryStr));
+        let query = Product.find(JSON.parse(queryStr)).populate("color");
 
         // Sorting
         if(req.query.sort) {
@@ -73,7 +73,7 @@ const getOneProduct = asyncHandler(async (req, res) => {
     validateMongoDBId(id);
 
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findById(id).populate("color");
         res.json(product);
     } catch (err) {
         throw new Error(err);
@@ -113,7 +113,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // Add to wishlist
 const addToWishlist = asyncHandler(async (req, res) => {
     const {_id} = req.user;
-    const {prodId} = req.body;
+    const {prodId} = req.body; 
     validateMongoDBId(_id);
     validateMongoDBId(prodId);
 
