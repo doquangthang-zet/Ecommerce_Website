@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrder } from '../features/auth/authSlice';
+import { getAllOrders, getOrder, resetState, updateOrder } from '../features/auth/authSlice';
 
 const columns = [
     {
@@ -12,7 +12,7 @@ const columns = [
       dataIndex: 'key',
     },
     {
-      title: 'Product',
+      title: 'Product count',
       dataIndex: 'product',
       sorter: (a, b) => a.product.length - b.product.length,
     },
@@ -44,35 +44,58 @@ const columns = [
 
 const Order = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getOrder());
-  }, []);
-
+  const navigate = useNavigate();
   const orderState = useSelector((state) => state.auth.orders);
 
+  useEffect(() => {
+    dispatch(getAllOrders());
+  }, []);
+
   const dataTable = [];
-  for (let i = 0; i < orderState.length; i++) {
+  for (let i = 0; i < orderState?.length; i++) {
     dataTable.push({
       key: i + 1,
-      product: orderState[i].products.map((i,idx, arr) => `${i.product.title}${idx !== (arr.length - 1) ? ", " : ""}`),
-      customer: orderState[i].orderBy.firstname + " " + orderState[i].orderBy.lastname,
-      date: new Date(orderState[i].createdAt).toLocaleString(),
-      amount: orderState[i].paymentIntent.amount,
-      status: orderState[i].orderStatus,
+      product: <div className="flex items-center justify-center gap-5">
+      <Link to={`/admin/orders/${orderState[i]?._id}`} className='text-blue-500 hover:underline text-center'>
+        View items
+      </Link>
+    </div>,
+      customer: orderState[i]?.user?.firstname + " " + orderState[i].user?.lastname,
+      date: new Date(orderState[i]?.createdAt).toLocaleString(),
+      amount: orderState[i]?.totalPrice,
+      status: orderState[i]?.orderStatus,
       actions: 
-      <div className="flex items-center justify-center gap-5">
-        <Link>
-          <FaEdit className='text-purple-500 text-xl' />
-        </Link>
-        <Link>
-          <MdDeleteForever className='text-red-500 text-xl' />
-        </Link>
-      </div>
+      <select 
+        name="status" 
+        id="status" 
+        className='py-3 pl-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6'
+        onChange={(e) => setOrderStatus(e.target.value, orderState[i]?._id)}
+        value={orderState[i]?.orderStatus}
+      >
+        <option value="Ordered" disabled>Ordered</option>
+        <option value="Progressed">In Progress</option>
+        <option value="Shipped">Shipped</option>
+        <option value="Out for delivery">Out for delivery</option>
+        <option value="Delivered">Delivered</option>
+      </select>
       ,
     });
   }
 
+const setOrderStatus = (e, id) =>  {
+    const orderData = {
+        id: id,
+        status: e,
+    }
+
+    dispatch(updateOrder(orderData));
+
+    setTimeout(() => {
+        dispatch(resetState());
+        // navigate("/admin/orders");
+        window.location.reload();  // for reloading the page after updating order status
+    },1000);
+  };
 
   return (
     <div>

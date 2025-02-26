@@ -4,11 +4,20 @@ import { toast } from 'react-toastify';
 import { productService } from './productService';
 
 //Get all product
-export const getAllProduct = createAsyncThunk("product", async (thunkAPI) => {
+export const getAllProduct = createAsyncThunk("product", async (filter, thunkAPI) => {
     try {
-        return await productService.getProducts();
+        return await productService.getProducts(filter);
     } catch (error) {
-        thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error);
+    }
+});
+
+//Get one product
+export const getOneProduct = createAsyncThunk("product/getOne", async (id, thunkAPI) => {
+    try {
+        return await productService.getOneProduct(id);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
     }
 });
 
@@ -17,7 +26,16 @@ export const addWishlist = createAsyncThunk("product/addWishlist", async (prodId
     try {
         return await productService.addToWishlist(prodId);
     } catch (error) {
-        thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error);
+    }
+});
+
+//Rate product
+export const writeRating = createAsyncThunk("product/rate", async (data, thunkAPI) => {
+    try {
+        return await productService.rateProduct(data);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
     }
 });
 
@@ -52,7 +70,29 @@ export const productSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if(state.isError) {
-                    toast.info(action.error);
+                    toast.info(action?.payload?.response?.data?.message);
+                }
+            }
+        ).addCase(
+            getOneProduct.pending, (state) => {
+                state.isLoading = true;
+            }
+        ).addCase(
+            getOneProduct.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.currentProduct = action.payload;
+                state.message = "Product fetched successfully!"
+            }
+        ).addCase(
+            getOneProduct.rejected, (state, action) => {
+                state.isError = true;
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
                 }
             }
         ).addCase(
@@ -66,7 +106,7 @@ export const productSlice = createSlice({
                 state.isSuccess = true;
                 state.addWishlist = action.payload;
                 if(state.isSuccess) {
-                    toast.info("Product added/removed wishlist!");
+                    toast.success("Product added/removed wishlist!");
                 }
             }
         ).addCase(
@@ -76,10 +116,34 @@ export const productSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if(state.isError) {
-                    toast.info(action.error);
+                    toast.error(action?.payload?.response?.data?.message);
                 }
             }
-        );
+        ).addCase(
+            writeRating.pending, (state) => {
+                state.isLoading = true;
+            }
+        ).addCase(
+            writeRating.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.writeRating = action.payload;
+                if(state.isSuccess) {
+                    toast.success("Product rated successfully!");
+                }
+            }
+        ).addCase(
+            writeRating.rejected, (state, action) => {
+                state.isError = true;
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
+            }
+        )
     }
 })
 

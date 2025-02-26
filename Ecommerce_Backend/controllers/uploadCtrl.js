@@ -13,8 +13,15 @@ const uploadImages = asyncHandler(async (req, res) => {
             const { path } = file;
             const newPath = await uploader(path);
             urls.push(newPath);
-            console.log(file);
-            fs.unlinkSync(path)
+            // fs.unlinkSync(path)
+            setTimeout(() => {
+                try {
+                    if (fs.existsSync(path)) fs.unlinkSync(path);
+                    console.log('Files deleted successfully');
+                  } catch (error) {
+                    console.error('Error deleting file:', error);
+                  }
+            }, 2000); // Wait 2 seconds
         }
 
         const images = urls.map((file) => {

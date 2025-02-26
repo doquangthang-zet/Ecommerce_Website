@@ -18,7 +18,13 @@ const createBlog = asyncHandler(async (req, res) => {
 //Get all blogs
 const getAllBlog = asyncHandler(async (req, res) => {
     try{
-        const allBlog = await Blog.find();
+        // Filtering
+        // MongoDB query based on some fields like category
+        const queryObj = {...req.query};
+        const queryStr = JSON.stringify(queryObj);
+        let query = Blog.find(JSON.parse(queryStr));
+        
+        const allBlog = await query;
         res.json(allBlog);
     } catch (err){
         throw new Error(err);

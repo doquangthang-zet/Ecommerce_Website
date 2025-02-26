@@ -5,7 +5,7 @@ import {NavLink, Link} from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <footer className="py-3 bg-cyan-950 border-b border-gray-600">
+      <footer className="py-3 bg-cyan-950 border-b border-gray-600 hidden md:block">
         <div className="container mx-auto">
           <div className="grid grid-cols-12 m-4">
             <div className="col-span-5">
@@ -29,20 +29,20 @@ const Footer = () => {
         </div>
       </footer>
 
-      <footer className="py-3 bg-cyan-950 border-b border-gray-600">
+      <footer className="bg-cyan-950 border-b border-gray-600 py-1 text-xs sm:text-sm md:text-base md:py-3 lg:text-lg">
         <div className="container mx-auto">
-          <div className="grid grid-cols-12 m-4">
-            <div className="col-span-4">
-              <h4 className='text-white mb-4 text-3xl font-semibold'>Contact Us</h4>
+          <div className="grid grid-cols-12 m-2 text-center md:m-4 lg:text-left">
+            <div className="col-span-12 mb-4 sm:col-span-6 sm:m-2 md:col-span-6 lg:col-span-4">
+              <h4 className='text-white mb-4 text-2xl font-medium md:text-3xl md:font-semibold'>Contact Us</h4>
               <div className='flex flex-col'>
                 <address className='text-white'>
                   Binh Tan, Binh Hung Hoa B,<br /> Ho Chi Minh City <br /> Pin Code: 700000
                 </address>
 
                 <a href="tel: +84949375439" className='mt-3 block text-white'>+84 23482842</a>
-                <a href="mailto: zetsu2468@gmail.com" className='mt-2 mb-3 block text-white'>zetsu2468@gmail.com</a>
+                <a href="mailto: doquangthang.zet@gmail.com" className='mt-2 mb-3 block text-white'>doquangthang.zet@gmail.com</a>
 
-                <div className="flex items-center gap-5 text-xl text-white">
+                <div className="flex items-center justify-center lg:justify-start gap-5 text-xl text-white">
                   <a href="#">
                     <BsLinkedin />
                   </a>
@@ -58,8 +58,8 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-span-3">
-              <h4 className='text-white mb-4 text-3xl font-semibold'>Information</h4>
+            <div className="col-span-12 mb-4 hidden sm:block sm:col-span-6 sm:m-2 md:col-span-6 lg:col-span-3">
+              <h4 className='text-white mb-4 text-2xl font-medium md:text-3xl md:font-semibold'>Information</h4>
               <div className='flex flex-col'>
                 <Link to="/" className='text-white py-2 mb-1'>Privacy Policy</Link>
                 <Link to="/" className='text-white py-2 mb-1'>Refund Policies</Link>
@@ -69,8 +69,8 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-span-3">
-              <h4 className='text-white mb-4 text-3xl font-semibold'>Account</h4>
+            <div className="col-span-12 mb-4 hidden sm:col-span-6 sm:m-2 md:col-span-6 lg:col-span-3 md:block">
+              <h4 className='text-white mb-4 text-2xl font-medium md:text-3xl md:font-semibold'>Account</h4>
               <div className='flex flex-col'>
                 <Link to="/" className='text-white py-2 mb-1'>About Us</Link>
                 <Link to="/" className='text-white py-2 mb-1'>FAQs</Link>
@@ -78,7 +78,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-span-2">
+            <div className="col-span-12 mb-4 hidden sm:col-span-6 sm:m-2 md:col-span-6 lg:col-span-2 md:block">
               <h4 className='text-white mb-4 text-3xl font-semibold'>Quick Links</h4>
               <div className='flex flex-col'>
                 <Link className='text-white py-2 mb-1'>Laptops</Link>

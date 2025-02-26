@@ -49,7 +49,7 @@ const AddColor = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: colorTitle || '',
+      title: colorTitle || "#ffffff",
     },
     validationSchema: colorSchema,
     onSubmit: values => {
@@ -61,6 +61,7 @@ const AddColor = () => {
         dispatch(updateColor(colorData));
         dispatch(resetState());
       } else {
+        // alert(JSON.stringify(values))
         dispatch(createColor(values));
       }
       
@@ -79,7 +80,7 @@ const AddColor = () => {
         <div>
             <form action="" onSubmit={formik.handleSubmit}>
               <div className="relative mt-4 mb-4">
-                <input type="text" id="title" className="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
+                <input type="color" id="title" className="block rounded-md px-2 pb-1 pt-4 h-8 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
                 name='title'
                 onChange={formik.handleChange("title")}
                 value={formik.values.title}

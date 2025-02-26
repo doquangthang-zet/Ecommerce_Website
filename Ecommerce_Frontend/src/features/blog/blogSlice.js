@@ -4,11 +4,11 @@ import { toast } from 'react-toastify';
 import { blogService } from './blogService';
 
 //Get all blog
-export const getAllBlog = createAsyncThunk("blog", async (thunkAPI) => {
+export const getAllBlog = createAsyncThunk("blog", async (category, thunkAPI) => {
     try {
-        return await blogService.getBlogs();
+        return await blogService.getBlogs(category);
     } catch (error) {
-        thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error);
     }
 });
 
@@ -17,7 +17,7 @@ export const getOneBlog = createAsyncThunk("blog/getOne", async (id, thunkAPI) =
     try {
         return await blogService.getOneBlog(id);
     } catch (error) {
-        thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error);
     }
 });
 
@@ -52,7 +52,7 @@ export const blogSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if(state.isError) {
-                    toast.info(action.error);
+                    toast.info(action?.payload?.response?.data?.message);
                 }
             }
         ).addCase(
@@ -73,7 +73,7 @@ export const blogSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
                 if(state.isError) {
-                    toast.info(action.error);
+                    toast.info(action?.payload?.response?.data?.message);
                 }
             }
         );

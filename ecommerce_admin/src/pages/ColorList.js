@@ -55,7 +55,11 @@ const ColorList = () => {
   for (let i = 0; i < colorState.length; i++) {
     dataTable.push({
       key: i + 1,
-      title: colorState[i].title,
+      title:
+        <div 
+          style={{backgroundColor: colorState[i].title}} 
+          className={`w-5 h-5 rounded-full border border-gray-600 cursor-pointer transition-all duration-300 ring-4 ring-cyan-600 scale-130`}
+        ></div>,
       actions: 
       <div className="flex items-center justify-center gap-5">
         <Link to={`/admin/color/${colorState[i]._id}`}>

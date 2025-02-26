@@ -23,15 +23,18 @@ import AddProduct from './pages/AddProduct';
 import CouponList from './pages/CouponList';
 import AddCoupon from './pages/AddCoupon';
 import ViewEnquiry from './pages/ViewEnquiry';
+import ViewOrder from './pages/ViewOrder';
+import { OpenRoutes } from './routing/OpenRoutes';
+import { PrivateRoutes } from './routing/PrivateRoutes';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<OpenRoutes><Login /></OpenRoutes>} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />
         <Route path='/resetPassword' element={<ResetPassword />} />
-        <Route path='/admin' element={<MainLayout />}>
+        <Route path='/admin' element={<PrivateRoutes><MainLayout /></PrivateRoutes>}>
           <Route index element={<Dashboard />} />
           <Route path='customers' element={<Customer />} />
           <Route path='product' element={<AddProduct />} />
@@ -47,6 +50,7 @@ function App() {
           <Route path='color/:id' element={<AddColor />} />
           <Route path='color-list' element={<ColorList />} />
           <Route path='orders' element={<Order />} />
+          <Route path='orders/:id' element={<ViewOrder />} />
           <Route path='enquiries' element={<Enquiries />} />
           <Route path='enquiries/:id' element={<ViewEnquiry />} />
           <Route path='blog-list' element={<BlogList />} />

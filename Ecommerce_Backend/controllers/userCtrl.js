@@ -129,7 +129,7 @@ const forgotPasswordToken = asyncHandler(async (req, res) => {
     try {
         const token = await user.createPasswordResetToken();
         await user.save();
-        const resetURL = `Hi. Please follow this link to reset your password. This link will expire in 10 minutes from now. <a href='http://localhost:5000/api/user/resetPassword/${token}'>Click here</a>`;
+        const resetURL = `Hi. Please follow this link to reset your password. This link will expire in 10 minutes from now. <a href='${process.env.CLIENT_URL}/reset-pass/${token}'>Click here</a>`;
         const data = {
             to: email,
             subject: "Forgot password link",
@@ -228,7 +228,15 @@ const updateOneUser = asyncHandler(async (req, res) => {
             new: true,
         });
 
-        res.json(updatedUser);
+        res.json({
+            _id: updatedUser?._id,
+            firstname: updatedUser?.firstname,
+            lastname: updatedUser?.lastname,
+            mobile: updatedUser?.mobile,
+            email: updatedUser?.email,
+            token: generateJWT(updatedUser?._id),
+        });
+        // res.json(updatedUser);
     } catch (err) {
         throw new Error(err);
     }
@@ -382,97 +390,223 @@ const updateQuantityFromCart = asyncHandler(async (req, res) => {
     }
 });
 
+const createOrder = asyncHandler(async (req, res) => {
+    const {shippingInfo, orderItems, totalPrice, totalPriceAfterDiscount} = req.body;
+    const {_id} = req.user;
+
+    try {
+        const order = await Order.create({
+            user: _id,
+            shippingInfo,
+            orderItems,
+            totalPrice,
+            totalPriceAfterDiscount,
+            // paymentInfo,
+        })
+
+        res.json({order, success: true});
+    } catch (error) {
+        throw new Error(error)
+    }
+});
+
+// Get uer order(user side)
+const getUserOrder = asyncHandler(async (req, res) => {
+    const {_id} = req.user;
+    validateMongoDBId(_id);
+    try {
+        const order = await Order.find({user: _id}).populate("user").populate("orderItems.product").populate("orderItems.color");
+        res.json(order);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+// Get Month income (admin side)
+const getMonthlyincome = asyncHandler(async (req, res) => {
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let d = new Date();
+    let endDate = "";
+    d.setDate(1);
+
+    for (let index = 0; index < 11; index++) {
+        d.setMonth(d.getMonth() - 1);
+        endDate = months[d.getMonth()] + " " + d.getFullYear();
+    }
+
+    const data = await Order.aggregate([
+        {
+            $match: {
+                createdAt: {
+                    $gte: new Date(endDate),
+                    $lt: new Date(),
+                }
+            }
+        },
+        {
+            $group: {
+                _id: {month: "$month"},
+                amount: {$sum: "$totalPriceAfterDiscount"},
+                count: {$sum: 1},
+            }
+        }
+    ]);
+    res.json(data);
+});
+
+// Get Moth count (admin side)
+const getMonthlyCount = asyncHandler(async (req, res) => {
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let d = new Date();
+    let endDate = "";
+    d.setDate(1);
+
+    for (let index = 0; index < 11; index++) {
+        d.setMonth(d.getMonth() - 1);
+        endDate = months[d.getMonth()] + " " + d.getFullYear();
+    }
+
+    const data = await Order.aggregate([
+        {
+            $match: {
+                createdAt: {
+                    $gte: new Date(endDate),
+                    $lt: new Date(),
+                }
+            }
+        },
+        {
+            $group: {
+                _id: {month: "$month"},
+                count: {$sum: 1},
+            }
+        }
+    ]);
+    res.json(data);
+});
+
+// Get yearly count (admin side)
+const getYearlyCount = asyncHandler(async (req, res) => {
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let d = new Date();
+    let endDate = "";
+    d.setDate(1);
+
+    for (let index = 0; index < 11; index++) {
+        d.setMonth(d.getMonth() - 1);
+        endDate = months[d.getMonth()] + " " + d.getFullYear();
+    }
+
+    const data = await Order.aggregate([
+        {
+            $match: {
+                createdAt: {
+                    $gte: new Date(endDate),
+                    $lt: new Date(),
+                }
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                count: {$sum: 1},
+                amount: {$sum: "$totalPriceAfterDiscount"},
+            }
+        }
+    ]);
+    res.json(data);
+});
+
 // Delete cart
 const deleteCart = asyncHandler(async (req, res) => {
     const {_id} = req.user;
     validateMongoDBId(_id);
 
     try{
-        const user = await User.findById(_id);
-        const cart = await Cart.findOneAndDelete({userId: user?._id});
+        const cart = await Cart.deleteMany({userId: _id});
         res.json(cart);
     } catch(err) {
         throw new Error(err);
     }
 });
 
-// Apply coupon
-const applyCoupon = asyncHandler(async (req, res) => {
-    const {coupon} = req.body;
-    const {_id} = req.user;
-    validateMongoDBId(_id);
+// // Apply coupon
+// const applyCoupon = asyncHandler(async (req, res) => {
+//     const {coupon} = req.body;
+//     const {_id} = req.user;
+//     validateMongoDBId(_id);
 
-    try{
-        const getCoupon = await Coupon.findOne({name: coupon});
-        if(getCoupon === null) throw new Error("Invalid coupon!")
-        const user = await User.findById(_id);
-        let {products, cartTotal} = await Cart.findOne({orderBy: user?._id}).populate(
-            "products.product", "_id title price"
-        );
-        let totalAfterDiscount = (cartTotal - (cartTotal * getCoupon.discount) / 100).toFixed(2);
+//     try{
+//         const getCoupon = await Coupon.findOne({name: coupon});
+//         if(getCoupon === null) throw new Error("Invalid coupon!")
+//         const user = await User.findById(_id);
+//         let {products, cartTotal} = await Cart.findOne({orderBy: user?._id}).populate(
+//             "products.product", "_id title price"
+//         );
+//         let totalAfterDiscount = (cartTotal - (cartTotal * getCoupon.discount) / 100).toFixed(2);
 
-        const updatedCart = await Cart.findOneAndUpdate({orderBy: user?._id}, {
-            totalAfterDiscount: totalAfterDiscount
-        }, {new: true});
+//         const updatedCart = await Cart.findOneAndUpdate({orderBy: user?._id}, {
+//             totalAfterDiscount: totalAfterDiscount
+//         }, {new: true});
 
-        res.json(updatedCart);
-    } catch(err) {
-        throw new Error(err);
-    }
-});
+//         res.json(updatedCart);
+//     } catch(err) {
+//         throw new Error(err);
+//     }
+// });
 
-// Order
-const createOrder = asyncHandler(async(req, res) => {
-    const {COD, couponApplied} = req.body;
-    const {_id} = req.user;
-    validateMongoDBId(_id);
+// // Order
+// const createOrder = asyncHandler(async(req, res) => {
+//     const {COD, couponApplied} = req.body;
+//     const {_id} = req.user;
+//     validateMongoDBId(_id);
 
-    try{
-        if(!COD) throw new Error("Create cash order failed!");
-        const user = await User.findById(_id);
-        let userCart = await Cart.findOne({orderBy: user?._id});
-        let finalAmount = 0;
+//     try{
+//         if(!COD) throw new Error("Create cash order failed!");
+//         const user = await User.findById(_id);
+//         let userCart = await Cart.findOne({orderBy: user?._id});
+//         let finalAmount = 0;
         
-        if(couponApplied && userCart.totalAfterDiscount) {
-            finalAmount = userCart.totalAfterDiscount;
-        } else {
-            finalAmount = userCart.cartTotal;
-        }
+//         if(couponApplied && userCart.totalAfterDiscount) {
+//             finalAmount = userCart.totalAfterDiscount;
+//         } else {
+//             finalAmount = userCart.cartTotal;
+//         }
 
-        let newOrder = await new Order({
-            products: userCart.products,
-            paymentIntent: {
-                id: uniqid(),
-                method: "COD",
-                amount: finalAmount,
-                status: "Cash on delivery",
-                created: Date.now(),
-                currency: "usd",
-            },
-            orderStatus: "Cash on delivery",
-            orderBy: user?._id
-        }).save();
+//         let newOrder = await new Order({
+//             products: userCart.products,
+//             paymentIntent: {
+//                 id: uniqid(),
+//                 method: "COD",
+//                 amount: finalAmount,
+//                 status: "Cash on delivery",
+//                 created: Date.now(),
+//                 currency: "usd",
+//             },
+//             orderStatus: "Cash on delivery",
+//             orderBy: user?._id
+//         }).save();
 
-        let updateProduct = userCart.products.map((item) => {
-            return {
-                updateOne: {
-                    filter: {_id: item.product._id},
-                    update: {$inc: {quantity: -item.count, sold: item.count}},
-                },
-            };
-        });
+//         let updateProduct = userCart.products.map((item) => {
+//             return {
+//                 updateOne: {
+//                     filter: {_id: item.product._id},
+//                     update: {$inc: {quantity: -item.count, sold: item.count}},
+//                 },
+//             };
+//         });
 
-        let updatedProduct = await Product.bulkWrite(updateProduct, {});
-        res.json({message: "success"});
-    } catch(err) {
-        throw new Error(err);
-    }
-});
+//         let updatedProduct = await Product.bulkWrite(updateProduct, {});
+//         res.json({message: "success"});
+//     } catch(err) {
+//         throw new Error(err);
+//     }
+// });
 
-//Get all order
+// //Get all order
 const getAllOrder = asyncHandler(async(req, res) => {
     try{
-        const allUserOrder = await Order.find().populate("products.product").populate("orderBy").exec();
+        const allUserOrder = await Order.find().populate("orderItems.product").populate("user");
         res.json(allUserOrder);
     } catch(err) {
         throw new Error(err);
@@ -480,13 +614,13 @@ const getAllOrder = asyncHandler(async(req, res) => {
 });
 
 //Get user order
-const getOrder = asyncHandler(async(req, res) => {
-    const {_id} = req.user;
+const getSingleOrder = asyncHandler(async(req, res) => {
+    const _id = req.params.id;
     validateMongoDBId(_id);
 
     try{
-        const userOrder = await Order.findOne({orderBy: _id}).populate("products.product").populate("orderBy").exec();
-        res.json(userOrder);
+        const singleOrder = await Order.findOne({_id}).populate("orderItems.product").populate("user").exec();
+        res.json(singleOrder);
     } catch(err) {
         throw new Error(err);
     }
@@ -501,9 +635,6 @@ const updateOrder = asyncHandler(async(req, res) => {
     try{
         const updatedOrder = await Order.findByIdAndUpdate(id, {
             orderStatus: status,
-            paymentIntent: {
-                status: status,
-            },
         }, {new: true});
         res.json(updatedOrder);
     } catch(err) {
@@ -511,4 +642,37 @@ const updateOrder = asyncHandler(async(req, res) => {
     }
 });
 
-module.exports = {createUser, loginUserCtrl, loginAdminCtrl, getAllUsers, getOneUser, deleteOneUser, updateOneUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword, getWishlist, saveAddress, userCart, getUserCart, deleteCart, applyCoupon, createOrder, getOrder, getAllOrder, updateOrder, deleteProductFromCart, updateQuantityFromCart};
+module.exports = {
+    createUser, 
+    loginUserCtrl, 
+    loginAdminCtrl, 
+    getAllUsers, 
+    getOneUser, 
+    deleteOneUser, 
+    updateOneUser, 
+    blockUser, 
+    unblockUser, 
+    handleRefreshToken, 
+    logout, 
+    updatePassword, 
+    forgotPasswordToken, 
+    resetPassword, 
+    getWishlist, 
+    saveAddress, 
+    userCart, 
+    getUserCart, 
+    deleteCart, 
+    // applyCoupon, 
+    // createOrder, 
+    // getOrder, 
+    getAllOrder, 
+    updateOrder, 
+    deleteProductFromCart, 
+    updateQuantityFromCart,
+    createOrder,
+    getUserOrder,
+    getMonthlyincome,
+    getMonthlyCount,
+    getYearlyCount,
+    getSingleOrder,
+};

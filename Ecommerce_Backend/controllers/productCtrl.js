@@ -37,7 +37,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
             const sortBy = req.query.sort.split(",").join(" ");
             query = query.sort(sortBy);
         } else {
-            query = query.sort("-createdAt");
+            query = query.sort("title");
         }
 
         // Limiting fields
@@ -73,7 +73,7 @@ const getOneProduct = asyncHandler(async (req, res) => {
     validateMongoDBId(id);
 
     try {
-        const product = await Product.findById(id).populate("color");
+        const product = await Product.findById(id).populate("color").populate("ratings.postedBy");
         res.json(product);
     } catch (err) {
         throw new Error(err);

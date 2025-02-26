@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../features/auth/authSlice"
+import {getAllOrders, getMonthlyOrderIncome, getYearlyOrderIncome, login} from "../features/auth/authSlice"
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if(!user == null || isSuccess) {
+    if(user !== null && isSuccess) {
       navigate("/admin");
     }
   }, [user, isLoading, isError, isSuccess, message]);
@@ -54,8 +54,8 @@ const Login = () => {
             {message.message == "Rejected" ? "You are not an admin" : ""}
           </div>
 
-          <div class="relative">
-            <input type="text" id="email" name='email' class="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
+          <div className="relative">
+            <input type="text" id="email" name='email' className="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
             onChange={formik.handleChange("email")}
             value={formik.values.email}
             onBlur={formik.handleBlur("email")} />
@@ -66,10 +66,10 @@ const Login = () => {
               ) : null}
             </div>
 
-            <label htmlFor="email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
+            <label htmlFor="email" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
           </div>
-          <div class="relative">
-            <input type="password" id="password" name='password' class="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
+          <div className="relative">
+            <input type="password" id="password" name='password' className="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" placeholder=" "
             onChange={formik.handleChange("password")}
             value={formik.values.password}
             onBlur={formik.handleBlur("password")} />
@@ -80,11 +80,11 @@ const Login = () => {
               ) : null}
             </div>
 
-            <label htmlFor="pass" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+            <label htmlFor="pass" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
           </div>
-          <div className='text-end'>
+          {/* <div className='text-end'>
             <Link to="/forgotPassword" className='text-sm text-purple-600 underline'>Forgot Password?</Link>
-          </div>
+          </div> */}
           <button className='rounded-md text-black bg-purple-400 px-8 py-2 text-lg font-semibold hover:bg-purple-500 hover:text-white mt-5' type='submit'>Login</button>
         </form>
       </div>

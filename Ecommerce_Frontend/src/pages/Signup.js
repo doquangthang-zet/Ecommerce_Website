@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BreadCrum from '../components/BreadCrum'
 import Meta from '../components/Meta';
-import {NavLink, Link} from "react-router-dom";
+import {NavLink, Link, useNavigate} from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../features/user/userSlice';
 
 const Signup = () => {
     const dispatch = useDispatch();
+    const userState = useSelector(state => state?.user)
+    const navigate = useNavigate();
 
     let userSchema = Yup.object({
         firstname: Yup.string().required("First name is required!"),
@@ -34,20 +36,26 @@ const Signup = () => {
         },
     });
 
+    useEffect(() => {
+        if(userState?.user !== null && userState.isSuccess === true) {
+            navigate("/login");
+            // window.location.reload();
+        }
+    }, [userState]);
     return (
     <>
         <Meta title="Signup" />
         <BreadCrum title="Signup" />
 
-        <div className="py-5">
+        <div className="p-2 mb-2 text-xs sm:text-sm md:text-base md:py-3 lg:text-lg lg:py-5 lg:mb-6">
             <div className="container mx-auto">
                 <div className="grid grid-cols-12 gap-4">
                     {/* Signup card*/}
                     <div className="col-span-12">
-                        <div className="bg-white rounded-md p-5 my-7 mx-auto w-1/3">
-                            <h3 className='text-xl font-medium text-center mb-3'>Create account</h3>
+                        <div className="bg-white rounded-md p-5 my-7 mx-auto w-2/3 md:w-1/3">
+                            <h3 className='text-base md:text-xl font-medium text-center mb-1 md:mb-3'>Create account</h3>
 
-                            <form action="" className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+                            <form action="" className='flex flex-col gap-2 md:gap-4' onSubmit={formik.handleSubmit}>
                                 <div className="mt-2">
                                     <input
                                         type="text"
@@ -68,7 +76,7 @@ const Signup = () => {
                                     </div>
                                 </div>
 
-                                <div className="mt-2">
+                                <div className="md:mt-2">
                                     <input
                                         type="text"
                                         name="lastname"
@@ -88,7 +96,7 @@ const Signup = () => {
                                     </div>
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="md:mt-2">
                                     <input
                                         type="email"
                                         name="email"
@@ -108,7 +116,7 @@ const Signup = () => {
                                     </div>
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="md:mt-2">
                                     <input
                                         type="tel"
                                         name="mobile"
@@ -128,7 +136,7 @@ const Signup = () => {
                                     </div>
                                 </div>
 
-                                <div className="mb-3">
+                                <div className="md:mt-2">
                                     <input
                                         type="password"
                                         name="password"
@@ -149,9 +157,9 @@ const Signup = () => {
                                 </div>
 
                                 <div>
-                                    <div className="flex justify-center items-center gap-4">
-                                        <button type='submit' className='rounded-3xl text-white bg-cyan-950 px-8 py-2 text-lg hover:bg-orange-500 hover:text-black ml-2 mt-5'>Sign up</button>
-                                        <Link to="/login" className='rounded-3xl text-black bg-orange-500 px-8 py-2 text-lg hover:bg-cyan-950 hover:text-white ml-2 mt-5'>Login</Link>
+                                    <div className="flex flex-col md:flex-row justify-center items-center gap-2">
+                                        <button type='submit' className='w-2/3 rounded-2xl text-sm ml-1 px-3 py-1 mt-2 md:rounded-3xl text-white bg-cyan-950 lg:px-8 lg:py-3 lg:text-lg hover:bg-orange-500 hover:text-black lg:ml-2 lg:mt-5'>Signup</button>
+                                        <Link to="/login" className='w-2/3 text-center rounded-2xl text-sm ml-1 px-3 py-1 mt-2 md:rounded-3xl text-white bg-orange-500 lg:px-8 lg:py-3 lg:text-lg hover:bg-cyan-950 hover:text-white lg:ml-2 lg:mt-5'>Login</Link>
                                     </div>
                                 </div>
                             </form>

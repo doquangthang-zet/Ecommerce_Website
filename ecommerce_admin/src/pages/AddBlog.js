@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
@@ -141,7 +142,7 @@ const AddBlog = () => {
                   imageState?.map((image, j) => (
                     <div className='relative' key={j}>
                       <GiCrossMark className='absolute top-4 right-4 text-2xl cursor-pointer bg-white p-1 rounded-md' onClick={() => dispatch(deleteImg(image.public_id))} />
-                      <img src={image.url} className='p-3' alt="product image" width={200} height={200} />
+                      <img src={image.url} className='p-3' alt="product" width={200} height={200} />
                     </div>
                   ))
                 }

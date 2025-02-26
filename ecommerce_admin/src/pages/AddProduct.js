@@ -186,10 +186,9 @@ const AddProduct = () => {
 
               {/* Price */}
               <div className="relative mt-4 mb-4">
-                <input type="number" id="price" 
+                <input type="number" id="price" min="0" 
                   name='price'
                   className="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" 
-                  placeholder=" "
                   onChange={formik.handleChange("price")}
                   value={formik.values.price}
                   onBlur={formik.handleBlur("price")}
@@ -236,7 +235,7 @@ const AddProduct = () => {
                 value={formik.values.tags}
                 onBlur={formik.handleBlur("tags")}
               >
-                <option value="" disabled>Select tag</option>
+                <option value="">Select tag</option>
                 <option value="featured">Featured</option>
                 <option value="popular">Popular</option>
                 <option value="special">Special</option>

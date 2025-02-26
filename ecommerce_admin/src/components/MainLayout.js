@@ -4,7 +4,7 @@ import {
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
-import { AiOutlineDashboard, AiOutlineShop, AiOutlineShopping, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineDashboard, AiOutlineShopping, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import { MdOutlineCategory } from "react-icons/md";
 import { LuClipboardList } from "react-icons/lu";
 import { SiBrandfolder } from "react-icons/si";
@@ -13,50 +13,49 @@ import { PiUserList } from "react-icons/pi";
 import { FaBloggerB } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
 import { RiCouponLine } from "react-icons/ri";
-import { IoMdNotifications } from "react-icons/io";
 import { Link, useNavigate, Outlet } from 'react-router-dom';
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
-import { Dropdown, Space } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import { resetState } from '../features/auth/authSlice';
+import { FaSignOutAlt } from "react-icons/fa";
 
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
     const {
-      token: { colorBgContainer, borderRadiusLG },
+      token: { colorBgContainer },
     } = theme.useToken();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const signOut = () => {
-      localStorage.removeItem("user");
-      dispatch(resetState());
-      navigate("/");
-    }
+    // Log out function
+    // const signOut = () => {
+    //   localStorage.clear();
+    //   navigate("/");
+    // }
 
-    const items = [
-      {
-        key: '1',
-        label: (
-          <Link to="/">
-            View Profile
-          </Link>
-        ),
-      },
-      {
-        key: '2',
-        danger: true,
-        label: (
-          <button onClick={() => signOut()}>
-            Sign out
-          </button>
-        ),
-      },
-    ];
+    // Options on hover profile
+    // const items = [
+    //   {
+    //     key: '1',
+    //     label: (
+    //       <Link to="/">
+    //         View Profile
+    //       </Link>
+    //     ),
+    //   },
+    //   {
+    //     key: '2',
+    //     danger: true,
+    //     label: (
+    //       <button onClick={() => signOut()}>
+    //         Sign out
+    //       </button>
+    //     ),
+    //   },
+    // ];
   return (
     <Layout /* onContextMenu={(e) => e.preventDefault()} */>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -72,7 +71,10 @@ const MainLayout = () => {
           defaultSelectedKeys={[""]}
           onClick={({key}) => {
             if(key === "signout") {
-
+              localStorage.clear();
+              
+              dispatch(resetState());
+              navigate("/");
             } else {
               navigate(key);
             }
@@ -189,9 +191,15 @@ const MainLayout = () => {
               icon: <PiUserList />,
               label: 'Enquiries',
             },
+            {
+              key: 'signout',
+              icon: <FaSignOutAlt />,
+              label: 'Sign out',
+            },
           ]}
         />
       </Sider>
+
       <Layout>
         <Header
           style={{
@@ -211,27 +219,27 @@ const MainLayout = () => {
           />
 
           <div className='flex gap-5 items-center'>
-            <div className='relative'>
+            {/* <div className='relative'>
               <IoMdNotifications className='text-2xl' />
               <span className='bg-purple-500 p-1 leading-2 text-xs rounded-full absolute -top-1 -right-1'>3</span>
+            </div> */}
+            <div className='flex gap-5 items-center'>
+              <div>
+                <img width={32} height={32} className='rounded-md' src="shopping-bags.png" alt="avatar" />
+              </div>
+              <div className='flex flex-col'>
+                <h5 className='text-lg font-medium mb-0'>Thang</h5>
+                <p className='text-sm mb-0'>Web Developer</p>
+              </div>
             </div>
-
-            <Dropdown menu={{ items }} className='flex items-center hover:!text-purple-500'>
+            {/* <Dropdown menu={{ items }} className='flex items-center hover:!text-purple-500'>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  <div className='flex gap-5 items-center'>
-                    <div>
-                      <img width={32} height={32} className='rounded-md' src="logo192.png" alt="avatar" />
-                    </div>
-                    <div className='flex flex-col'>
-                      <h5 className='text-lg font-medium mb-0'>Zetsu</h5>
-                      <p className='text-sm mb-0'>Web Developer</p>
-                    </div>
-                  </div>
+                  
                   <DownOutlined />
                 </Space>
               </a>
-            </Dropdown>
+            </Dropdown> */}
           </div>
         </Header>
         <Content

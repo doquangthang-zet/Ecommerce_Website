@@ -1,6 +1,7 @@
 const express = require('express');
-const { createUser, loginUserCtrl, getAllUsers, getOneUser, deleteOneUser, updateOneUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword, loginAdminCtrl, getWishlist, saveAddress, userCart, getUserCart, deleteCart, applyCoupon, createOrder, getOrder, updateOrder, getAllOrder, deleteProductFromCart, updateQuantityFromCart } = require('../controllers/userCtrl');
+const { createUser, loginUserCtrl, getAllUsers, getOneUser, deleteOneUser, updateOneUser, blockUser, unblockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword, loginAdminCtrl, getWishlist, saveAddress, userCart, getUserCart, deleteCart, applyCoupon, createOrder, getOrder, updateOrder, getAllOrder, deleteProductFromCart, updateQuantityFromCart, getUserOrder, getMonthlyincome, getMonthlyCount, getYearlyCount, getSingleOrder } = require('../controllers/userCtrl');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
+const { makePayment } = require('../controllers/paymentCtrl');
 const router = express.Router();
 
 router.post("/register", createUser);
@@ -16,13 +17,18 @@ router.get("/wishlist", authMiddleware, getWishlist);
 router.put("/saveAddress", authMiddleware, saveAddress);
 router.post("/cart", authMiddleware, userCart);
 router.get("/cart", authMiddleware, getUserCart);
+router.get("/getMonthIncome", authMiddleware, isAdmin, getMonthlyincome);
+router.get("/getMonthCount", authMiddleware, isAdmin, getMonthlyCount);
+router.get("/getYearCount", authMiddleware, isAdmin, getYearlyCount);
 router.delete("/cart", authMiddleware, deleteCart);
 router.delete("/deleteProdCart/:id", authMiddleware, deleteProductFromCart);
 router.put("/cart/updateQuantity/:id", authMiddleware, updateQuantityFromCart);
-router.post("/applyCoupon", authMiddleware, applyCoupon);
-router.post("/cart/order", authMiddleware, createOrder);
+// router.post("/applyCoupon", authMiddleware, applyCoupon);
+router.post("/cart/createOrder", authMiddleware, createOrder);
+router.post("/cart/payment", authMiddleware, makePayment);
 router.get("/order/all", authMiddleware, isAdmin, getAllOrder);
-router.get("/order", authMiddleware, getOrder);
+router.get("/myOrder", authMiddleware, getUserOrder);
+router.get("/order/:id", authMiddleware, getSingleOrder);
 router.put("/order/updateOrder/:id", authMiddleware, isAdmin, updateOrder);
 
 router.get("/all", getAllUsers);

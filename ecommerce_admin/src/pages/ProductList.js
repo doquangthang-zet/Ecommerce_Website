@@ -91,7 +91,11 @@ const ProductList = () => {
       color:
       <div className='flex'>
         {productState[i].color.map((color) => (
-          <div key={color._id}>{color.title}, </div>
+          <div 
+            key={color._id}
+            style={{backgroundColor: color.title}} 
+            className={`w-5 h-5 rounded-full border border-gray-600 cursor-pointer transition-all duration-300 ring-2`}
+          ></div>
         ))}
       </div> ,
       sold: productState[i].sold,

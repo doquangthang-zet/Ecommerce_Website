@@ -36,7 +36,7 @@ const AddCoupon = () => {
   useEffect(() => {
     if(couponId) {
       dispatch(getOneCoupon(couponId));
-      console.log(couponId);
+      // console.log(couponId);
     } else {
       dispatch(resetState());
     }
@@ -108,7 +108,7 @@ const AddCoupon = () => {
                 value={formik.values.name}
                 onBlur={formik.handleBlur("name")} />
                 
-                <label htmlFor="name" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Enter product title</label>
+                <label htmlFor="name" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Enter coupon title</label>
                 
                 <div className="text-sm text-red-500 pl-2 italic">
                   {formik.touched.name && formik.errors.name ? (

@@ -61,6 +61,12 @@ app.use("/api/upload", uploadRoute);
 app.use(notFound);
 app.use(errorHandler);
 
+app.get('/', (req, res) => {
+    res.send('Server running!')
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`); 
 }); 
+
+module.exports = app;
