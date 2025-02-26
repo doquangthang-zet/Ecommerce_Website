@@ -19,6 +19,7 @@ const enquiryRoute = require('./routes/enquiryRoutes');
 const uploadRoute = require('./routes/uploadRoutes');
 const morgan = require("morgan");
 const cors = require("cors");
+const cronjob = require("./utils/spinupSeverSchedule");
 
 dbConnect();
 
@@ -58,12 +59,12 @@ app.use("/api/enquiry", enquiryRoute);
 //API route for upload
 app.use("/api/upload", uploadRoute);
 
-app.use(notFound);
-app.use(errorHandler);
-
 app.get('/', (req, res) => {
     res.send('Server running!')
 })
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`); 
