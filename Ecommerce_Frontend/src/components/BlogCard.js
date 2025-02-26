@@ -7,7 +7,7 @@ const BlogCard = (props) => {
 
   return (
     <div className='p-1 text-xs sm:text-sm md:text-base md:py-3 lg:text-lg'>
-        <div className="bg-white rounded-md p-2 md:h-96 lg:h-100">
+        <div className="bg-white rounded-md p-2 md:h-96 lg:h-100 shadow-md">
             <img src={image?image:blog} className='rounded-t-md w-full h-1/2 sm:h-2/3 md:h-56' alt="blog" />
 
             <div className="p-1 flex flex-col items-center md:h-36 md:justify-between lg:h-52 lg:justify-between lg:items-center">

@@ -23,7 +23,7 @@ const Home = () => {
       if (window.innerWidth < 640) {
         setGrid(12); // Mobile: Show 1 items
       } else if (window.innerWidth < 1024) {
-        setGrid(6); // Tablet: Show 2 items
+        setGrid(5); // Tablet: Show 2 items
       } else {
         setGrid(3); // Desktop: Show 4 items
       }
@@ -50,7 +50,7 @@ const Home = () => {
           <div className="grid grid-cols-12">
             <div className="col-span-12 sm:col-span-6">
               <div className="p-2 relative">
-                <img src="images/main-banner-1.jpg" className='rounded-md' alt="main Banner" />
+                <img src="images/main-banner-1.jpg" className='rounded-md shadow-md' alt="main Banner" />
                 <div className="absolute p-2 top-2 left-1 lg:top-16 lg:left-5 lg:gap-6">
                   <h4 className='text-sm md:text-xl md:tracking-wide text-orange-500 ml-1 md:ml-2 font-normal capitalize md:leading-6'>SUPERCHARGED FOR PROS.</h4>
                   <h5 className='text-xl md:text-5xl md:tracking-tight ml-1 md:font-medium md:ml-2 md:leading-10 md:mt-5'>iPad S13+ Pro.</h5>
@@ -63,7 +63,7 @@ const Home = () => {
             <div className="col-span-12 sm:col-span-6 hidden sm:block">
               <div className="flex flex-wrap justify-between items-center">
                 <div className="p-3 relative w-full lg:w-1/2">
-                  <img src="images/catbanner-01.jpg" className='rounded-md' alt="main Banner" />
+                  <img src="images/catbanner-01.jpg" className='rounded-md shadow-md' alt="main Banner" />
                   <div className="absolute top-8 left-5 lg:top-4 lg:left-2 xl:top-10 xl:left-6 p-1 gap-1">
                     <h4 className='text-sm md:text-base tracking-wide text-orange-500 md:ml-2 font-normal uppercase md:leading-5'>Best Sale.</h4>
                     <h5 className='text-lg md:text-xl tracking-tight md:ml-1 font-medium md:leading-9 md:mt-2'>iPad S13+ Pro.</h5>
@@ -72,7 +72,7 @@ const Home = () => {
                 </div>
 
                 <div className="p-3 relative w-full lg:w-1/2">
-                  <img src="images/catbanner-02.jpg" className='rounded-md' alt="main Banner" />
+                  <img src="images/catbanner-02.jpg" className='rounded-md shadow-md' alt="main Banner" />
                   <div className="absolute top-8 left-5 lg:top-4 lg:left-2 xl:top-10 xl:left-6 p-1 gap-1">
                     <h4 className='text-sm md:text-base tracking-wide text-orange-500 md:ml-2 font-normal uppercase md:leading-5'>New Arrival.</h4>
                     <h5 className='text-lg md:text-xl tracking-tight md:ml-1 font-medium md:leading-9 md:mt-2'>iPad S13+ Pro.</h5>
@@ -81,7 +81,7 @@ const Home = () => {
                 </div>
 
                 <div className="p-3 relative w-1/2 hidden lg:block">
-                  <img src="images/catbanner-03.jpg" className='rounded-md' alt="main Banner" />
+                  <img src="images/catbanner-03.jpg" className='rounded-md shadow-md' alt="main Banner" />
                   <div className="absolute top-8 left-5 lg:top-4 lg:left-2 xl:top-10 xl:left-6 p-1 gap-1">
                     <h4 className='text-sm md:text-base tracking-wide text-orange-500 md:ml-2 font-normal uppercase md:leading-5'>SUPERCHARGED FOR PROS.</h4>
                     <h5 className='text-lg md:text-xl tracking-tight md:ml-1 font-medium md:leading-9 md:mt-2'>iPad S13+ Pro.</h5>
@@ -90,7 +90,7 @@ const Home = () => {
                 </div>
 
                 <div className="p-3 relative w-1/2 hidden lg:block">
-                  <img src="images/catbanner-04.jpg" className='rounded-md' alt="main Banner" />
+                  <img src="images/catbanner-04.jpg" className='rounded-md shadow-md' alt="main Banner" />
                   <div className="absolute top-8 left-5 lg:top-4 lg:left-2 xl:top-10 xl:left-6 p-1 gap-1">
                     <h4 className='text-sm md:text-base tracking-wide text-orange-500 md:ml-2 font-normal uppercase md:leading-5'>SUPERCHARGED.</h4>
                     <h5 className='text-lg md:text-xl tracking-tight md:ml-1 font-medium md:leading-9 md:mt-2'>iPad S13+ Pro.</h5>
@@ -295,7 +295,7 @@ const Home = () => {
       <section className="p-2 mb-2 text-xs sm:text-sm md:text-base md:py-3 lg:text-lg lg:py-5 lg:mb-6">
         <div className="container mx-auto">
           <div className="grid grid-cols-12 gap-4 lg:gap-5">
-            <div className='col-span-12 sm:col-span-6 lg:col-span-3 relative bg-black h-96 rounded-md'>
+            <div className='col-span-12 sm:col-span-6 lg:col-span-3 relative bg-black h-96 rounded-md shadow-md'>
               <img className='absolute bottom-9 w-5/6 mx-7' src="images/famous-1.png" alt="famous" />
               <div className="absolute top-5 left-5">
                 <h5 className='text-sm text-white font-normal mb-2 uppercase'>Big Screen</h5>
@@ -304,7 +304,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className='col-span-12 sm:col-span-6 lg:col-span-3 relative bg-white h-96 rounded-md'>
+            <div className='col-span-12 sm:col-span-6 lg:col-span-3 relative bg-white h-96 rounded-md shadow-md'>
               <img className='absolute bottom-9 w-5/6 mx-7' src="images/famous-2.png" alt="famous" />
               <div className="absolute top-5 left-5">
                 <h5 className='text-sm text-black font-normal mb-2 uppercase'>Studio Display</h5>
@@ -313,7 +313,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className='hidden col-span-12 sm:block sm:col-span-6 lg:col-span-3 relative bg-white h-96 rounded-md'>
+            <div className='hidden col-span-12 sm:block sm:col-span-6 lg:col-span-3 relative bg-white h-96 rounded-md shadow-md'>
               <img className='absolute bottom-0 w-5/6 mx-7' src="images/famous-3.png" alt="famous" />
               <div className="absolute top-5 left-5">
                 <h5 className='text-sm text-black font-normal mb-2 uppercase'>smartphones</h5>
@@ -322,7 +322,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className='hidden sm:block col-span-12 sm:col-span-6 lg:col-span-3 relative bg-white h-96 rounded-md'>
+            <div className='hidden sm:block col-span-12 sm:col-span-6 lg:col-span-3 relative bg-white h-96 rounded-md shadow-md'>
               <img className='absolute bottom-0 w-5/6 mx-7' src="images/famous-4.png" alt="famous" />
               <div className="absolute top-5 left-5">
                 <h5 className='text-sm text-black font-normal mb-2 uppercase'>home speakers</h5>

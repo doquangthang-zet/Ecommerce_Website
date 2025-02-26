@@ -67,7 +67,7 @@ const Store = () => {
       if (window.innerWidth < 640) {
         setGrid(12); // Mobile: Show 1 items
       } else if (window.innerWidth < 1024) {
-        setGrid(6); // Tablet: Show 2 items
+        setGrid(5); // Tablet: Show 2 items
       } else {
         setGrid(3); // Desktop: Show 4 items
       }
@@ -372,7 +372,7 @@ const Store = () => {
                       <div className="flex items-center gap-3">
                         <img src="images/gr4.svg" onClick={() => {setGrid(3);}} className='block w-9 h-9 p-2 rounded bg-gray-200 cursor-pointer' alt="grid" />
                         {/* <img src="images/gr3.svg" onClick={() => {setGrid(4);}} className='block w-9 h-9 p-2 rounded bg-gray-200 cursor-pointer' alt="grid" /> */}
-                        <img src="images/gr2.svg" onClick={() => {setGrid(6);}} className='block w-9 h-9 p-2 rounded bg-gray-200 cursor-pointer' alt="grid" />
+                        <img src="images/gr2.svg" onClick={() => {setGrid(5);}} className='block w-9 h-9 p-2 rounded bg-gray-200 cursor-pointer' alt="grid" />
                         <img src="images/gr.svg" onClick={() => {setGrid(12);}} className='block w-9 h-9 p-2 rounded bg-gray-200 cursor-pointer' alt="grid" />
                       </div>
                     </div>

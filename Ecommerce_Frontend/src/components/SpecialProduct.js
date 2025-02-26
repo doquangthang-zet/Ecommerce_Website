@@ -7,7 +7,7 @@ const SpecialProduct = (props) => {
     const {id, brand, title, totalRating, price, quantity, sold, image} = props;
 
   return (
-    <div className='col-span-12 sm:col-span-6 md:col-span-4'>
+    <div className='col-span-12 sm:col-span-6 md:col-span-4 shadow-md'>
         <div className="bg-white rounded-md p-2 sm:p-3 md:p-4">
             <div className="flex flex-col justify-center gap-1">
                 <div className='w-30 h-25 sm:w-60 sm:h-44 md:w-44 md:h-36 lg:w-full lg:h-60'>

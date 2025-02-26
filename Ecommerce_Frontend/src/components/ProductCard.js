@@ -36,18 +36,18 @@ const ProductCard = (props) => {
     // };
 
     return (
-        <div className="grid grid-cols-12 col-span-12 gap-4 lg:gap-5">
+        <div className="grid grid-cols-12 col-span-12 gap-4 lg:gap-5"> 
             {
                 data?.map((item, index) => (
-                    <div key={index} className={`col-span-${grid}`}>
-                        <div className={`${grid === 12 ? "flex gap-5": grid === 6 ? "" : grid === 4 ? "" : grid === 3 ? "" : ""} bg-white rounded-md p-4 relative overflow-hidden group w-full`}>
+                    <div key={index} className={`col-span-${grid} shadow-md`}>
+                        <div className={`${grid === 12 ? "flex gap-5": grid === 5 ? "" : grid === 4 ? "" : grid === 3 ? "" : ""} bg-white rounded-md p-4 relative overflow-hidden group w-full`}>
                             <div className="absolute top-2 right-2 md:top-5 md:right-4">
                                 <button onClick={() => addToWishlist(item?._id)}><CiHeart className={wishlistState && wishlistState?.filter((wl) => wl?._id === item?._id)?.length > 0 ? 'w-5 h-5 fill-pink-600' : 'w-5 h-5'} /></button>
                             </div>
             
                             <div className='flex justify-center flex-col'>
-                                <img src={item?.images[0]?.url} className={`${grid === 12 ? `w-72 h-56`: grid === 6 ? "mx-auto w-56 h-36" : grid === 4 ? "mx-auto w-44 h-30" : grid === 3 ? "mx-auto w-48 h-24" : "mx-auto w-3/4 h-1/2"} rounded-t-lg block group-hover:hidden object-contain`} alt="product img" />
-                                <img src={item?.images[1]?.url} className={`${grid === 12 ? `w-72 h-56`: grid === 6 ? "mx-auto w-56 h-36" : grid === 4 ? "mx-auto w-44 h-30" : grid === 3 ? "mx-auto w-48 h-24" : "mx-auto w-3/4 h-1/2"} rounded-t-lg hidden group-hover:block object-contain`} alt="product img" />
+                                <img src={item?.images[0]?.url} className={`${grid === 12 ? `w-72 h-56`: grid === 5 ? "mx-auto w-56 h-36" : grid === 4 ? "mx-auto w-44 h-30" : grid === 3 ? "mx-auto w-48 h-24" : "mx-auto w-3/4 h-1/2"} rounded-t-lg block group-hover:hidden object-contain`} alt="product img" />
+                                <img src={item?.images[1]?.url} className={`${grid === 12 ? `w-72 h-56`: grid === 5 ? "mx-auto w-56 h-36" : grid === 4 ? "mx-auto w-44 h-30" : grid === 3 ? "mx-auto w-48 h-24" : "mx-auto w-3/4 h-1/2"} rounded-t-lg hidden group-hover:block object-contain`} alt="product img" />
                             </div>
             
                             <div className="p-2">

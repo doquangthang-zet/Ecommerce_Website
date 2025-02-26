@@ -293,7 +293,7 @@ const AddProduct = () => {
               </div>
 
               {/* Quantity */}
-              <div class="relative mt-4 mb-4">
+              <div className="relative mt-4 mb-4">
                 <input type="number" id="quantity"
                 className="block rounded-md px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-200 dark:bg-gray-700 appearance-none dark:text-white focus:outline-none focus:ring-0 peer" 
                 placeholder=" "
