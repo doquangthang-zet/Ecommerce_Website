@@ -15,5 +15,5 @@ User accounts for testing:
 
 
 ## Links to the demo
-- Admin Dashboard: https://ecommerce-web-admin.netlify.app/
+- Admin Dashboard: https://ecommerce-website-five-xi.vercel.app/
 - User Website: https://e-commerce-nobrand.netlify.app/

@@ -35,6 +35,9 @@ const Login = () => {
   useEffect(() => {
     if(user !== null && isSuccess) {
       navigate("/admin");
+      dispatch(getMonthlyOrderIncome());
+      dispatch(getAllOrders());
+      dispatch(getYearlyOrderIncome());
     }
   }, [user, isLoading, isError, isSuccess, message]);
 
