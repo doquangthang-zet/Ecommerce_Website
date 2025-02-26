@@ -1,4 +1,4 @@
-import { CronJob } from 'cron'
+const { CronJob } = require("cron");
 
 // Schedule a job to wake server up every 14 minutes.
 const job = CronJob.from({
