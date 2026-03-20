@@ -28,6 +28,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.options('*', cors());
 
 //API route for users
 app.use("/api/user", authRoute);
