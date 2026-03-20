@@ -166,7 +166,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Camera")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Camera")[0]?.images[0]?.url} 
+                    src="images/camera.jpg" 
                     alt="camera"
                     className='w-1/2 h-1/2 md:h-20'
                   />
@@ -178,7 +178,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Television")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Television")[0]?.images[0]?.url} 
+                    src="images/tv.jpg" 
                     className='w-1/2 h-1/2 md:h-20'
                     alt="tv" 
                   />
@@ -190,7 +190,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Watch")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Watch")[0]?.images[0]?.url} 
+                    src="images/watch.jpg" 
                     className='w-1/2 h-1/2 md:h-20'
                     alt="watch" 
                   />
@@ -199,10 +199,10 @@ const Home = () => {
                 <div className='flex items-center gap-5 border-b w-full md:w-1/4 p-3'>
                   <div className='w-1/2 h-1/2 text-center md:text-left md:h-24'>
                     <h6 className='text-base lg:text-2xl'>Music & Gamings</h6>
-                    <p>{productState && productState?.filter((prod) => prod?.category === "Headphone")?.length} Items</p>
+                    <p>{productState && productState?.filter((prod) => prod?.category === "Headphones")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Headphone")[0]?.images[0]?.url} 
+                    src="images/headphone.jpg"
                     className='w-1/2 h-1/2 md:h-20'
                     alt="headphone" 
                   />
@@ -214,7 +214,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Laptop")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Laptop")[0]?.images[0]?.url} 
+                    src="images/laptop.jpg"
                     className='w-1/2 h-1/2 md:h-20'
                     alt="Laptop" 
                   />
@@ -226,7 +226,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Speaker")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Speaker")[0]?.images[0]?.url} 
+                    src="images/speaker.jpg"
                     className='w-1/2 h-1/2 md:h-20'
                     alt="Speaker" 
                   />
@@ -238,7 +238,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Smartphone")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Smartphone")[0]?.images[0]?.url} 
+                    src="images/famous-3.png"
                     className='w-1/2 h-1/2 md:h-20'
                     alt="Smartphone" 
                   />
@@ -250,7 +250,7 @@ const Home = () => {
                     <p>{productState && productState?.filter((prod) => prod?.category === "Processor")?.length} Items</p>
                   </div>
                   <img 
-                    src={productState && productState?.filter((prod) => prod?.category === "Processor")[0]?.images[0]?.url} 
+                    src="images/processor.png"
                     className='w-1/2 h-1/2 md:h-20'
                     alt="Processor" 
                   />
