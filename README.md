@@ -13,6 +13,7 @@ User accounts for testing:
 - Email: [test2@gmail.com](mailto\:test2@gmail.com)
 - Password: 123
 
+VISA Card for testing: Please visit this link for more information https://docs.stripe.com/testing
 
 ## Links to the demo
 - Admin Dashboard: https://ecommerce-website-five-xi.vercel.app/

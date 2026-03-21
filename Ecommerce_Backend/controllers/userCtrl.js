@@ -76,6 +76,7 @@ const loginAdminCtrl = asyncHandler(async (req, res) => {
             _id: findAdmin?._id,
             firstname: findAdmin?.firstname,
             lastname: findAdmin?.lastname,
+            role: findAdmin?.role,
             mobile: findAdmin?.mobile,
             email: findAdmin?.email,
             token: generateJWT(findAdmin?._id),

@@ -148,7 +148,7 @@ const AddProduct = () => {
         <h3 className="mb-4 text-2xl font-bold">{productId ? "Edit" : "Add"} Product</h3>
 
         <div>
-            <form action="" onSubmit={formik.handleSubmit}>
+            <form action="" onSubmit={formik.handleSubmit} className='notranslate'>
               {/* Title */}
               <div className="relative mt-4 mb-4">
                 <input type="text" id="title" 
@@ -332,7 +332,7 @@ const AddProduct = () => {
                     </div>
                   ))
                 }
-              </div>
+              </div> 
 
               <div className="text-sm text-red-500 pl-2 italic">
                 {formik.touched.images && formik.errors.images ? (

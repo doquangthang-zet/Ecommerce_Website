@@ -225,7 +225,7 @@ const MainLayout = () => {
             </div> */}
             <div className='flex gap-5 items-center'>
               <div>
-                <img width={32} height={32} className='rounded-md' src="shopping-bags.png" alt="avatar" />
+                <img width={32} height={32} className='rounded-md' src="./shopping-bags.png" alt="avatar" />
               </div>
               <div className='flex flex-col'>
                 <h5 className='text-lg font-medium mb-0'>Thang</h5>

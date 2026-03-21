@@ -23,12 +23,36 @@ const cronjob = require("./utils/spinupSeverSchedule");
 
 dbConnect();
 
-app.use(cors());
+// app.use(cors());
+const allowedOrigins = [
+  "https://ecommerce-website-five-xi.vercel.app",
+  "http://localhost:3000",
+  "https://e-commerce-nobrand.netlify.app",
+  "https://localhost:3001",
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+}));
+app.options('*', cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.options('*', cors());
 
 //API route for users
 app.use("/api/user", authRoute);
