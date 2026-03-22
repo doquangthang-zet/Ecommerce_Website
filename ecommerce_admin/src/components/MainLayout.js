@@ -17,7 +17,7 @@ import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
-import { resetState } from '../features/auth/authSlice';
+import { logout, resetState } from '../features/auth/authSlice';
 import { FaSignOutAlt } from "react-icons/fa";
 
 const { Header, Sider, Content } = Layout;
@@ -30,32 +30,6 @@ const MainLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Log out function
-    // const signOut = () => {
-    //   localStorage.clear();
-    //   navigate("/");
-    // }
-
-    // Options on hover profile
-    // const items = [
-    //   {
-    //     key: '1',
-    //     label: (
-    //       <Link to="/">
-    //         View Profile
-    //       </Link>
-    //     ),
-    //   },
-    //   {
-    //     key: '2',
-    //     danger: true,
-    //     label: (
-    //       <button onClick={() => signOut()}>
-    //         Sign out
-    //       </button>
-    //     ),
-    //   },
-    // ];
   return (
     <Layout /* onContextMenu={(e) => e.preventDefault()} */>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -74,6 +48,7 @@ const MainLayout = () => {
               localStorage.clear();
               
               dispatch(resetState());
+              dispatch(logout());
               navigate("/");
             } else {
               navigate(key);
@@ -219,10 +194,6 @@ const MainLayout = () => {
           />
 
           <div className='flex gap-5 items-center'>
-            {/* <div className='relative'>
-              <IoMdNotifications className='text-2xl' />
-              <span className='bg-purple-500 p-1 leading-2 text-xs rounded-full absolute -top-1 -right-1'>3</span>
-            </div> */}
             <div className='flex gap-5 items-center'>
               <div>
                 <img width={32} height={32} className='rounded-md' src="./shopping-bags.png" alt="avatar" />
@@ -232,14 +203,6 @@ const MainLayout = () => {
                 <p className='text-sm mb-0'>Web Developer</p>
               </div>
             </div>
-            {/* <Dropdown menu={{ items }} className='flex items-center hover:!text-purple-500'>
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown> */}
           </div>
         </Header>
         <Content
@@ -248,21 +211,21 @@ const MainLayout = () => {
             padding: 24,
             minHeight: 280,
           }}
-        >
-          <ToastContainer
-            position="top-right"
-            autoClose={250}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            theme="light"
-          />
+        > 
           <Outlet />
         </Content>
       </Layout>
+
+      <ToastContainer 
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        theme="light"
+      />
     </Layout>
   )
 }

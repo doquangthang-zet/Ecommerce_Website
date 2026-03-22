@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 // Get all enquiries of the web
 const getEnquiries = async () => {
@@ -11,21 +11,21 @@ const getEnquiries = async () => {
 
 // Get one enquiry of the web
 const getOneEnquiry = async (id) => {
-    const response = await axios.get(`${baseUrl}enquiry/${id}`, config);
+    const response = await api.get(`enquiry/${id}`);
 
     return response.data;
 };
 
 //Update enquiry
 const updateEnquiry = async (enquiry) => {
-    const response = await axios.put(`${baseUrl}enquiry/${enquiry.id}`, {status: enquiry.data}, config);
+    const response = await api.put(`enquiry/${enquiry.id}`, {status: enquiry.data});
   
     return response.data;
 };
 
 //Delete enquiry
 const deleteEnquiry = async (id) => {
-    const response = await axios.delete(`${baseUrl}enquiry/${id}`, config);
+    const response = await api.delete(`enquiry/${id}`);
   
     return response.data;
 };

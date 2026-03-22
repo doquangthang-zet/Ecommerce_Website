@@ -98,8 +98,6 @@ const likeBlog = asyncHandler(async (req, res) => {
             $pull: {dislikes: currentUserId},
             isDisliked: false,
         }, {new: true});
-
-        // res.json(blog);
     }
 
     // Condition to update like status
@@ -170,36 +168,35 @@ const dislikeBlog = asyncHandler(async (req, res) => {
 });
 
 // Upload image to cloud
-const uploadImages = asyncHandler(async (req, res) => {
-    const {id} = req.params;
-    validateMongoDBId(id);
+// const uploadImages = asyncHandler(async (req, res) => {
+//     const {id} = req.params;
+//     validateMongoDBId(id);
 
-    try {
-        const uploader = (path) => cloudinaryUploadImg(path, "images");
-        const urls = [];
-        const files = req.files;
+//     try {
+//         const uploader = (path) => cloudinaryUploadImg(path, "images");
+//         const urls = [];
+//         const files = req.files;
 
-        for(const file of files) {
-            const {path} = file;
-            const newPath = await uploader(path);
-            urls.push(newPath);
-            fs.unlinkSync(path);
+//         for(const file of files) {
+//             const {path} = file;
+//             const newPath = await uploader(path);
+//             urls.push(newPath);
+//             fs.unlinkSync(path);
+//         }
 
-        }
+//         const findBlog = await Blog.findByIdAndUpdate(id, 
+//             {
+//                 images: urls.map((file) => {
+//                     return file;
+//                 }),
+//             }, 
+//             {new: true}
+//         );
 
-        const findBlog = await Blog.findByIdAndUpdate(id, 
-            {
-                images: urls.map((file) => {
-                    return file;
-                }),
-            }, 
-            {new: true}
-        );
+//         res.json(findBlog)
+//     } catch (err) {
+//         throw new Error(err);
+//     }
+// });
 
-        res.json(findBlog)
-    } catch (err) {
-        throw new Error(err);
-    }
-});
-
-module.exports = {createBlog, getAllBlog, getOneBlog, updateBlog, deleteBlog, likeBlog, dislikeBlog, uploadImages};
+module.exports = {createBlog, getAllBlog, getOneBlog, updateBlog, deleteBlog, likeBlog, dislikeBlog};

@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createBCate,getOneBlogCategory,resetState, updateBlogCategory } from '../features/blogCate/bCategorySlice';
 
@@ -18,7 +17,7 @@ const AddBlogCategory = () => {
     return state.bCategory;
   });
 
-  const { isSuccess, isError, isLoading, createdBCategory, updatedBlogCategory, blogCategoryTitle } = newBCate;
+  const { blogCategoryTitle } = newBCate;
 
   useEffect(() => {
     if(blogCateId) {
@@ -27,18 +26,6 @@ const AddBlogCategory = () => {
       dispatch(resetState());
     }
   }, [blogCateId]);
-
-  useEffect(() => {
-    if(isSuccess && createdBCategory) {
-      toast.success('Blog category added successfully!');
-    }
-    if(isSuccess && updatedBlogCategory) {
-      toast.success('Blog category updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   //b cate input validation using yup
   let bCateSchema = Yup.object({

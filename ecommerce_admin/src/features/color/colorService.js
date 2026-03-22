@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 // Get all colors of the web
 const getColors = async () => {
@@ -11,28 +11,28 @@ const getColors = async () => {
 
 //Create color
 const createColor = async (color) => {
-    const response = await axios.post(`${baseUrl}color/`, color, config);
+    const response = await api.post("color/", color);
   
     return response.data;
 };
 
 // Get one color of the web
 const getOneColor = async (id) => {
-    const response = await axios.get(`${baseUrl}color/${id}`, config);
+    const response = await api.get(`color/${id}`);
 
     return response.data;
 };
 
 //Update color
 const updateColor = async (color) => {
-    const response = await axios.put(`${baseUrl}color/${color.id}`, color.data, config);
+    const response = await api.put(`color/${color.id}`, color.data);
   
     return response.data;
 };
 
 //Delete color
 const deleteColor = async (id) => {
-    const response = await axios.delete(`${baseUrl}color/${id}`, config);
+    const response = await api.delete(`color/${id}`);
   
     return response.data;
 };

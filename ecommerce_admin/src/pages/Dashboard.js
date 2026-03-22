@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
 import { Column } from '@ant-design/plots';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,30 +63,13 @@ const Dashboard = () => {
     legend: false,
   };
 
-  const configCount = {
-    data: dataMonthlyCount,
-    xField: 'type',
-    yField: 'count',
-    style: {
-      fill: ({ type }) => {
-        return '#A855F7';
-      },
-    },
-    label: {
-      text: (originData) => {
-        const val = parseFloat(originData.count);
-        return (val).toFixed(1);
-      },
-      offset: 10,
-    },
-    legend: false,
-  };
-
   useEffect(() => {
-    dispatch(getMonthlyOrderIncome());
-    dispatch(getAllOrders());
-    dispatch(getYearlyOrderIncome());
-  }, []);
+    if (userState?.user?.token) {      
+      dispatch(getMonthlyOrderIncome());
+      dispatch(getAllOrders());
+      dispatch(getYearlyOrderIncome());  
+    }      
+  }, [dispatch]);
 
   useEffect(() => {
     let data = [];

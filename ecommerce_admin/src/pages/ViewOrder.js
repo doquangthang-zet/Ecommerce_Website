@@ -47,8 +47,6 @@ const ViewOrder = () => {
       dispatch(resetState());
     }
   }, [orderId]);
-
-  // console.log(orderState);
   
   const dataTable = [];
   for (let i = 0; i < orderState?.orderItems?.length; i++) {

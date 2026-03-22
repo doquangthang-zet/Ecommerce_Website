@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
@@ -10,7 +10,6 @@ import { deleteImg, resetImgState, uploadImg } from '../features/upload/uploadSl
 import Dropzone from 'react-dropzone';
 import { GiCrossMark } from "react-icons/gi";
 import { createBlog, getOneBlog, resetState, updateBlog } from '../features/blog/blogSlice';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AddBlog = () => {
@@ -34,7 +33,7 @@ const AddBlog = () => {
     return state.blog;
   });
 
-  const { isSuccess, isError, isLoading, createdBlog, updatedBlog, currentBlog } = newBlog;
+  const { currentBlog } = newBlog;
 
   useEffect(() => {
     if(blogId) {
@@ -43,18 +42,6 @@ const AddBlog = () => {
       dispatch(resetState());
     }
   }, [blogId]);
-
-  useEffect(() => {
-    if(isSuccess && createdBlog) {
-      toast.success('Blog added successfully!');
-    }
-    if(isSuccess && updatedBlog) {
-      toast.success('Blog updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   //blog input validation using yup
   let blogSchema = Yup.object({

@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 // Get all blogs of the web
 const getBlogs = async () => {
@@ -11,29 +11,29 @@ const getBlogs = async () => {
 
 //Create blog
 const createBlog = async (blog) => {
-    const response = await axios.post(`${baseUrl}blog/`, blog, config);
+    const response = await api.post("blog/", blog);
   
     return response.data;
 };
 
 // Get one blog of the web
 const getOneBlog = async (id) => {
-    const response = await axios.get(`${baseUrl}blog/${id}`, config);
+    const response = await api.get(`blog/${id}`);
 
     return response.data;
 };
 
 //Update blog
 const updateBlog = async (blog) => {
-    const response = await axios.put(`${baseUrl}blog/${blog.id}`, blog.data, config);
-  
+    const response = await api.put(`blog/${blog.id}`, blog.data);
+
     return response.data;
 };
 
 //Delete blog
 const deleteBlog = async (id) => {
-    const response = await axios.delete(`${baseUrl}blog/${id}`, config);
-  
+    const response = await api.delete(`blog/${id}`);
+
     return response.data;
 };
 

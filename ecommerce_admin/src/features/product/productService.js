@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 // Get all products of the web
 const getProducts = async () => {
@@ -11,28 +11,28 @@ const getProducts = async () => {
 
 //Create product
 const createProduct = async (product) => {
-    const response = await axios.post(`${baseUrl}product/`, product, config);
+    const response = await api.post("product/", product);
   
     return response.data;
 };
 
 // Get one product of the web
 const getOneProduct = async (id) => {
-    const response = await axios.get(`${baseUrl}product/${id}`, config);
+    const response = await api.get(`product/${id}`);
 
     return response.data;
 };
 
 //Update product
 const updateProduct = async (product) => {
-    const response = await axios.put(`${baseUrl}product/${product.id}`, product.data, config);
+    const response = await api.put(`product/${product.id}`, product.data);
   
     return response.data;
 };
 
 //Delete product
 const deleteProduct = async (id) => {
-    const response = await axios.delete(`${baseUrl}product/${id}`, config);
+    const response = await api.delete(`product/${id}`);
   
     return response.data;
 };

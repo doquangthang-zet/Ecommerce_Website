@@ -1,7 +1,8 @@
 const express = require("express");
-const { createBlog, getAllBlog, getOneBlog, updateBlog, deleteBlog, likeBlog, dislikeBlog, uploadImages } = require("../controllers/blogCtrl");
+const { createBlog, getAllBlog, getOneBlog, updateBlog, deleteBlog, likeBlog, dislikeBlog } = require("../controllers/blogCtrl");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
 const { uploadPhoto, blogImageResize } = require("../middlewares/uploadImgMiddleware");
+const { uploadImages } = require("../controllers/uploadCtrl");
 const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, createBlog);

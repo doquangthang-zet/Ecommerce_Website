@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 // Login api
 const login = async (userData) => {
@@ -15,43 +15,42 @@ const login = async (userData) => {
 
 // Get all order of the web
 const getOrders = async () => {
-
-    const response = await axios.get(`${baseUrl}user/order/all`, config);
+    const response = await api.get("user/order/all");
 
     return response.data;
 };
 
 // Get monthly order
 const getMonthlyOrders = async () => {
-    const response = await axios.get(`${baseUrl}user/getMonthIncome`, config);
+    const response = await api.get("user/getMonthIncome");
 
     return response.data;
 };
 
 // Get year order
 const getYearlyOrdersCount = async () => {
-    const response = await axios.get(`${baseUrl}user/getYearCount`, config);
+    const response = await api.get("user/getYearCount");
 
     return response.data;
 };
 
 //Get all orders
 const getAllOrders = async () => {
-    const response = await axios.get(`${baseUrl}user/order/all`, config);
+    const response = await api.get("user/order/all");
 
     return response.data;
 };
 
 //Get single order
 const getSingleOrder = async (id) => {
-    const response = await axios.get(`${baseUrl}user/order/${id}`, config);
+    const response = await api.get(`user/order/${id}`);
 
     return response.data;
 };
 
 // Update order status
 const updateOrderStatus = async (orderData) => {
-    const response = await axios.put(`${baseUrl}user/order/updateOrder/${orderData.id}`, {status: orderData.status}, config);
+    const response = await api.put(`user/order/updateOrder/${orderData.id}`, {status: orderData.status});
 
     return response.data;
 };

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import enquiryService from "./enquiryService";
-
-const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+import { toast } from "react-toastify";
 
 const initialState = {
     enquiries: [],
@@ -79,6 +78,9 @@ export const enquirySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOneEnquiry.pending,
@@ -98,6 +100,9 @@ export const enquirySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             updateEnquiry.pending,
@@ -109,6 +114,7 @@ export const enquirySlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedEnquiry = action.payload;
+                toast.success("Enquiry updated successfully!");
             }
         ).addCase(
             updateEnquiry.rejected,
@@ -117,6 +123,9 @@ export const enquirySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             deleteEnquiry.pending,
@@ -128,6 +137,7 @@ export const enquirySlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedEnquiry = action.payload;
+                toast.success("Enquiry deleted successfully!");
             }
         ).addCase(
             deleteEnquiry.rejected,
@@ -136,6 +146,9 @@ export const enquirySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(resetState, () => initialState);
     },

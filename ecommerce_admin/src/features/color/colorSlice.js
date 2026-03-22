@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import colorService from "./colorService";
+import { toast } from "react-toastify";
 
 const initialState = {
     colors: [],
@@ -101,6 +102,7 @@ export const colorSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.createdColor = action.payload;
+                toast.success("Color added successfully!");
             }
         )
         .addCase(
@@ -108,7 +110,10 @@ export const colorSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                // state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOneColor.pending,
@@ -139,6 +144,7 @@ export const colorSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedColor = action.payload;
+                toast.success("Color updated successfully!");
             }
         ).addCase(
             updateColor.rejected,
@@ -147,6 +153,9 @@ export const colorSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             deleteColor.pending,
@@ -158,6 +167,7 @@ export const colorSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedColor = action.payload;
+                toast.success("Color deleted successfully!");
             }
         ).addCase(
             deleteColor.rejected,
@@ -166,6 +176,9 @@ export const colorSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(resetState, () => initialState);
     },

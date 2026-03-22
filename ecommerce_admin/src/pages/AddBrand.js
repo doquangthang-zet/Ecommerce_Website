@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createBrand, getOneBrand, resetState, updateBrand } from '../features/brand/brandSlice';
 
@@ -18,7 +17,7 @@ const AddBrand = () => {
     return state.brand;
   });
 
-  const { isSuccess, isError, isLoading, createdBrand, updatedBrand, brandTitle } = newBrand;
+  const { brandTitle } = newBrand;
 
   useEffect(() => {
     if(brandId) {
@@ -27,18 +26,6 @@ const AddBrand = () => {
       dispatch(resetState());
     }
   }, [brandId]);
-
-  useEffect(() => {
-    if(isSuccess && createdBrand) {
-      toast.success('Brand added successfully!');
-    }
-    if(isSuccess && updatedBrand) {
-      toast.success('Brand updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   //brand input validation using yup
   let brandSchema = Yup.object({

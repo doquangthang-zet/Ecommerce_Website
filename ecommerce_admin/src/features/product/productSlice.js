@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import productService from "./productService";
+import { toast } from "react-toastify";
 
 const initialState = {
     products: [],
@@ -90,6 +91,9 @@ export const productSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             createProducts.pending, (state) => {
@@ -102,6 +106,7 @@ export const productSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.createdProduct = action.payload;
+                toast.success("Product created successfully!");
             }
         )
         .addCase(
@@ -110,6 +115,9 @@ export const productSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOneProduct.pending,
@@ -129,6 +137,9 @@ export const productSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             updateProduct.pending,
@@ -140,6 +151,7 @@ export const productSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedProduct = action.payload;
+                toast.success("Product updated successfully!");
             }
         ).addCase(
             updateProduct.rejected,
@@ -148,6 +160,9 @@ export const productSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             deleteProduct.pending,
@@ -159,6 +174,7 @@ export const productSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedProduct = action.payload;
+                toast.success("Product deleted successfully!");
             }
         ).addCase(
             deleteProduct.rejected,
@@ -167,6 +183,9 @@ export const productSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(resetState, () => initialState);
     },

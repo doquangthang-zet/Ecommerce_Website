@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import blogService from "./blogService";
+import { toast } from "react-toastify";
 
 const initialState = {
     blogs: [],
@@ -89,6 +90,9 @@ export const blogSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             createBlog.pending, (state) => {
@@ -101,6 +105,7 @@ export const blogSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.createdBlog = action.payload;
+                toast.success("Blog created successfully!");
             }
         )
         .addCase(
@@ -109,6 +114,9 @@ export const blogSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOneBlog.pending,
@@ -128,6 +136,9 @@ export const blogSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             updateBlog.pending,
@@ -139,6 +150,7 @@ export const blogSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedBlog = action.payload;
+                toast.success("Blog updated successfully!");
             }
         ).addCase(
             updateBlog.rejected,
@@ -147,6 +159,9 @@ export const blogSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             deleteBlog.pending,
@@ -158,6 +173,7 @@ export const blogSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedBlog = action.payload;
+                toast.success("Blog deleted successfully!");
             }
         ).addCase(
             deleteBlog.rejected,
@@ -166,6 +182,9 @@ export const blogSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(resetState, () => initialState);
     },

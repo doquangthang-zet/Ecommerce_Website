@@ -5,6 +5,6 @@ const { uploadPhoto, productImageResize } = require("../middlewares/uploadImgMid
 const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, uploadPhoto.array("images", 10), productImageResize, uploadImages);
-router.delete("/deleteImage/:id", authMiddleware, isAdmin, deleteImages);
+router.delete("/deleteImage/images/:id", authMiddleware, isAdmin, deleteImages);
 
 module.exports = router;

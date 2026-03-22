@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import categoryService from "./pCategoryService";
+import { toast } from "react-toastify";
 
 const initialState = {
     categories: [],
@@ -89,6 +90,9 @@ export const categorySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             createProductCate.pending, (state) => {
@@ -101,6 +105,7 @@ export const categorySlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.createdProductCategory = action.payload;
+                toast.success("Category created successfully!");
             }
         )
         .addCase(
@@ -109,6 +114,9 @@ export const categorySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOneCategory.pending,
@@ -128,6 +136,9 @@ export const categorySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             updateCategory.pending,
@@ -139,6 +150,7 @@ export const categorySlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedCategory = action.payload;
+                toast.success("Category updated successfully!");
             }
         ).addCase(
             updateCategory.rejected,
@@ -147,6 +159,9 @@ export const categorySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             deleteCategory.pending,
@@ -158,6 +173,7 @@ export const categorySlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedCategory = action.payload;
+                toast.success("Category deleted successfully!");
             }
         ).addCase(
             deleteCategory.rejected,
@@ -166,6 +182,9 @@ export const categorySlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(resetState, () => initialState);
     },

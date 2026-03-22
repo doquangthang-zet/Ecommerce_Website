@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 const getTokenFromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -8,27 +8,12 @@ const getTokenFromLocalStorage = localStorage.getItem("user")
 
 // Upload images to cloud
 const uploadImg = async (data) => {
-    const response = await axios.post(`${baseUrl}upload`, data, {
-      headers: {
-        Authorization: `Bearer ${
-          getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-        }`,
-      },
-    });
+    const response = await api.post("upload", data);
     return response.data;
 };
 
 const deleteImg = async (id) => {
-    const response = await axios.delete(
-      `${baseUrl}upload/deleteImage/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${
-            getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-          }`,
-        },
-      }
-    );
+    const response = await api.delete(`upload/deleteImage/${id}`);
     return response.data;
   };
 

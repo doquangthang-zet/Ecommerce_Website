@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createColor, getOneColor, resetState, updateColor } from '../features/color/colorSlice';
 
@@ -18,7 +17,7 @@ const AddColor = () => {
     return state.color;
   });
 
-  const { isSuccess, isError, isLoading, createdColor, updatedColor, colorTitle } = newColor;
+  const { colorTitle } = newColor;
 
   useEffect(() => {
     if(colorId) {
@@ -27,18 +26,6 @@ const AddColor = () => {
       dispatch(resetState());
     }
   }, [colorId]);
-
-  useEffect(() => {
-    if(isSuccess && createdColor) {
-      toast.success('Color added successfully!');
-    }
-    if(isSuccess && updatedColor) {
-      toast.success('Color updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   //color input validation using yup
   let colorSchema = Yup.object({

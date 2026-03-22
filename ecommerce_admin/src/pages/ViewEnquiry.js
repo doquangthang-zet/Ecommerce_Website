@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getOneEnquiry, resetState, updateEnquiry } from '../features/enquiry/enquirySlice';
 
 const ViewEnquiry = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const param = useParams();
   const enquiryId = param.id;
@@ -15,7 +15,7 @@ const ViewEnquiry = () => {
     return state.enquiry;
   });
 
-  const { isSuccess, isError, isLoading, createdEnquiry, updatedEnquiry, currentEnquiry } = newEnquiry;
+  const { isSuccess, isError, isLoading, updatedEnquiry, currentEnquiry } = newEnquiry;
 
   useEffect(() => {
     if(enquiryId) {

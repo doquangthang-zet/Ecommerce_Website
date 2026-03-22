@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ResetPassword = () => {
   return (
     <div className="py-5 bg-purple-300 min-h-screen">

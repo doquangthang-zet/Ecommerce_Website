@@ -1,6 +1,6 @@
 import axios from "axios";
 import {baseUrl} from "../../utils/baseUrl";
-import { config } from "../../utils/axiosconfig";
+import api from "../../utils/axiosconfig";
 
 // Get all category of the web
 const getPCategories = async () => {
@@ -11,28 +11,28 @@ const getPCategories = async () => {
 
 //Create product category
 const createProductCate = async (cate) => {
-    const response = await axios.post(`${baseUrl}productCategory/`, cate, config);
+    const response = await api.post("productCategory/", cate);
   
     return response.data;
 };
 
 // Get one cate of the web
 const getOnePCate = async (id) => {
-    const response = await axios.get(`${baseUrl}productCategory/${id}`, config);
+    const response = await api.get(`productCategory/${id}`);
 
     return response.data;
 };
 
 //Update cate
 const updatePCate = async (cate) => {
-    const response = await axios.put(`${baseUrl}productCategory/${cate.id}`, cate.data, config);
+    const response = await api.put(`productCategory/${cate.id}`, cate.data);
   
     return response.data;
 };
 
 //Delete cate
 const deletePCate = async (id) => {
-    const response = await axios.delete(`${baseUrl}productCategory/${id}`, config);
+    const response = await api.delete(`productCategory/${id}`);
   
     return response.data;
 };

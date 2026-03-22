@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import authService from "./authService";
+import { toast } from "react-toastify";
 
 const userFromLocalstorage = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
@@ -39,7 +40,7 @@ export const getMonthlyOrderIncome = createAsyncThunk("user/getMonthlyOrder", as
     }
 });
 
-//Get year;y orders
+//Get yearly orders
 export const getYearlyOrderIncome = createAsyncThunk("user/getYearlyOrder", async(thunkAPI) => {
     try {
         return await authService.getYearlyOrdersCount();
@@ -77,6 +78,8 @@ export const updateOrder = createAsyncThunk("user/updateOrderStatus", async(orde
 
 export const resetState = createAction("Reset_all");
 
+export const logout = createAction("Logout");
+
 export const authSlice = createSlice({
     name: "user",
     initialState,
@@ -93,6 +96,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload;
                 state.message = "success";
+                toast.success("Login successful!");
             }
         ).addCase(
             login.rejected,
@@ -101,7 +105,9 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.user = null;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOrder.pending,
@@ -121,7 +127,9 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getMonthlyOrderIncome.pending,
@@ -141,7 +149,9 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getYearlyOrderIncome.pending,
@@ -161,7 +171,9 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getAllOrders.pending,
@@ -181,7 +193,9 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getSingleOrder.pending,
@@ -201,7 +215,9 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             updateOrder.pending,
@@ -212,7 +228,7 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.message = "success";
+                toast.success("Order status updated successfully!");
             }
         ).addCase(
             updateOrder.rejected,
@@ -220,10 +236,19 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         )
-        .addCase(resetState, () => initialState);
+        .addCase(resetState, () => initialState)
+        .addCase(logout, (state) => {
+            localStorage.clear();
+            state.user = null;
+            state.isError = false;
+            state.isSuccess = false;
+            state.isLoading = false;
+        })
     },
 });
 

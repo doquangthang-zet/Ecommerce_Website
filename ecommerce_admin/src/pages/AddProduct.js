@@ -13,7 +13,6 @@ import { deleteImg, resetImgState, uploadImg } from '../features/upload/uploadSl
 import Dropzone from 'react-dropzone';
 import { GiCrossMark } from "react-icons/gi";
 import { createProducts, getOneProduct, resetState, updateProduct } from '../features/product/productSlice';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AddProduct = () => {
@@ -48,7 +47,7 @@ const AddProduct = () => {
     return state.product;
   });
 
-  const { isSuccess, isError, isLoading, createdProduct, updatedProduct, currentProduct } = newProduct;
+  const { currentProduct } = newProduct;
 
   useEffect(() => {
     if(productId) {
@@ -57,18 +56,6 @@ const AddProduct = () => {
       dispatch(resetState());
     }
   }, [productId]);
-
-  useEffect(() => {
-    if(isSuccess && createdProduct) {
-      toast.success('Product added successfully!');
-    }
-    if(isSuccess && updatedProduct) {
-      toast.success('Product updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   const imgs = [];
   imageState.forEach(element => {
@@ -328,7 +315,7 @@ const AddProduct = () => {
                   imageState.map((image, j) => (
                     <div className='relative' key={j}>
                       <GiCrossMark className='absolute top-4 right-4 text-2xl cursor-pointer bg-white p-1 rounded-md' onClick={() => dispatch(deleteImg(image.public_id))} />
-                      <img src={image.url} className='p-3' alt="product image" width={200} height={200} />
+                      <img src={image.url} className='p-3' alt="product" width={200} height={200} />
                     </div>
                   ))
                 }

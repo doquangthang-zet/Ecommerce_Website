@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Table } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaEdit } from "react-icons/fa";
-import { MdDeleteForever } from "react-icons/md";
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllOrders, getOrder, resetState, updateOrder } from '../features/auth/authSlice';
+import { getAllOrders, resetState, updateOrder } from '../features/auth/authSlice';
 
 const columns = [
     {
@@ -44,7 +42,6 @@ const columns = [
 
 const Order = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const orderState = useSelector((state) => state.auth.orders);
 
   useEffect(() => {
@@ -92,7 +89,6 @@ const setOrderStatus = (e, id) =>  {
 
     setTimeout(() => {
         dispatch(resetState());
-        // navigate("/admin/orders");
         window.location.reload();  // for reloading the page after updating order status
     },1000);
   };

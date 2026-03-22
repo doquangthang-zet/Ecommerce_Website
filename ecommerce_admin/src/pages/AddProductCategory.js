@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createProductCate, getOneCategory, resetState, updateCategory } from '../features/productCate/pCategorySlice';
 
@@ -17,7 +16,7 @@ const AddProductCategory = () => {
     return state.category;
   });
 
-  const { isSuccess, isError, isLoading, createdProductCategory, updatedCategory, categoryTitle } = newCategory;
+  const { categoryTitle } = newCategory;
 
   useEffect(() => {
     if(cateId) {
@@ -26,18 +25,6 @@ const AddProductCategory = () => {
       dispatch(resetState());
     }
   }, [cateId]);
-
-  useEffect(() => {
-    if(isSuccess && createdProductCategory) {
-      toast.success('Category added successfully!');
-    }
-    if(isSuccess && updatedCategory) {
-      toast.success('Category updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   //Cate input validation using yup
   let cateSchema = Yup.object({

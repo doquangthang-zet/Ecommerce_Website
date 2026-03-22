@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import brandService from "./brandService";
+import { toast } from "react-toastify";
 
 const initialState = {
     brands: [],
@@ -89,6 +90,9 @@ export const brandSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             createBrand.pending, (state) => {
@@ -101,6 +105,7 @@ export const brandSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.createdBrand = action.payload;
+                toast.success("Brand created successfully!");
             }
         )
         .addCase(
@@ -109,6 +114,9 @@ export const brandSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             getOneBrand.pending,
@@ -128,6 +136,9 @@ export const brandSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             updateBrand.pending,
@@ -139,6 +150,7 @@ export const brandSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.updatedBrand = action.payload;
+                toast.success("Brand updated successfully!");
             }
         ).addCase(
             updateBrand.rejected,
@@ -147,6 +159,9 @@ export const brandSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(
             deleteBrand.pending,
@@ -158,6 +173,7 @@ export const brandSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedBrand = action.payload;
+                toast.success("Brand deleted successfully!");
             }
         ).addCase(
             deleteBrand.rejected,
@@ -166,6 +182,9 @@ export const brandSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                if(state.isError) {
+                    toast.error(action?.payload?.response?.data?.message);
+                }
             }
         ).addCase(resetState, () => initialState);
     },

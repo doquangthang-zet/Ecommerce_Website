@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from "react-redux";
-import {getAllOrders, getMonthlyOrderIncome, getYearlyOrderIncome, login} from "../features/auth/authSlice"
+import { login } from "../features/auth/authSlice"
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,9 +35,6 @@ const Login = () => {
   useEffect(() => {
     if(user !== null && isSuccess) {
       navigate("/admin");
-      dispatch(getMonthlyOrderIncome());
-      dispatch(getAllOrders());
-      dispatch(getYearlyOrderIncome());
     }
   }, [user, isLoading, isError, isSuccess, message]);
 
@@ -54,7 +51,7 @@ const Login = () => {
           <p className='text-center'>Login to your account to continue.</p>
 
           <div className="text-sm text-red-500 pl-2 italic">
-            {message.message == "Rejected" ? "You are not an admin" : ""}
+            {message.message === "Rejected" ? "You are not an admin" : ""}
           </div>
 
           <div className="relative">

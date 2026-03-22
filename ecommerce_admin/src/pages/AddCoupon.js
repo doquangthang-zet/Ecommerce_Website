@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import "react-widgets/styles.css";
 import { createCoupon, getOneCoupon, resetState, updateCoupon } from '../features/coupon/couponSlice';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const AddCoupon = () => {
@@ -19,7 +18,7 @@ const AddCoupon = () => {
     return state.coupon;
   });
 
-  const { isSuccess, isError, isLoading, createdCoupon, updatedCoupon, currentCoupon } = newCoupon;
+  const { currentCoupon } = newCoupon;
 
   const changeDateFormat = (date) => {
     const newDate = new Date(date).toLocaleDateString();
@@ -36,23 +35,10 @@ const AddCoupon = () => {
   useEffect(() => {
     if(couponId) {
       dispatch(getOneCoupon(couponId));
-      // console.log(couponId);
     } else {
       dispatch(resetState());
     }
   }, [couponId]);
-
-  useEffect(() => {
-    if(isSuccess && createdCoupon) {
-      toast.success('Coupon added successfully!');
-    }
-    if(isSuccess && updatedCoupon) {
-      toast.success('Coupon updated successfully!');
-    }
-    if(isError) {
-      toast.error('Something went wrong!');
-    }
-  }, [isSuccess, isError, isLoading]);
 
   //copon input validation using yup
   let couponSchema = Yup.object({
